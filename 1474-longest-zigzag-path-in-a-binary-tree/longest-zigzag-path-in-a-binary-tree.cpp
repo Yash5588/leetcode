@@ -12,22 +12,15 @@
 class Solution {
 public:
     void getZigZag(TreeNode* root, bool right, long long &ma, long long count) {
+        if(!root) return;
         ma = max(ma, count);
-        if(root->right) {
-            getZigZag(root->right ,true ,ma ,(!right)?count+1:1);
-        }
-        if(root->left) {
-            getZigZag(root->left, false, ma, (right)?count+1:1);
-        }
+        getZigZag(root->right ,true ,ma ,(!right)?count+1:1);
+        getZigZag(root->left, false, ma, (right)?count+1:1);
     }
     int longestZigZag(TreeNode* root) {
         long long ma = 0;
-        if(root->right) {
-            getZigZag(root->right,true,ma,1);
-        }
-        if(root->left) {
-            getZigZag(root->left,false,ma,1);
-        }
+        getZigZag(root->right,true,ma,1);
+        getZigZag(root->left,false,ma,1);
         return ma;
     }
 };

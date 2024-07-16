@@ -23,17 +23,20 @@ public:
         }
         unordered_map<int,int> hashcount;
         hashcount[hash]++;
-        unordered_set<string> ans;
+        vector<string> ans;
         for(int i=0;i<n-10;i++) {
             hash /= 4;
             hash -= hashVal(s[i]);
             hash = (hash + (hashVal(s[i+10]) * radix) % MOD) % MOD;
-            hashcount[hash]++;
+            if(hashcount[hash] != -1) {
+                hashcount[hash]++;
+            }
             if(hashcount[hash] > 1) {
-                ans.insert(s.substr(i+1,10));
+                ans.push_back(s.substr(i+1,10));
+                hashcount[hash] = -1;
             }
         }
-        return vector<string>(ans.begin(),ans.end());
+        return ans;
 
     }
 };

@@ -12,7 +12,7 @@
 class Solution {
 public:
     vector<TreeNode*> ans;
-    void findDel(TreeNode* root, TreeNode* parent, vector<bool> &isFound) {
+    void findDel(TreeNode* root, TreeNode* parent, unordered_map<int,bool> &isFound) {
         if(!root) return;
         findDel(root->left,root,isFound);
         findDel(root->right,root,isFound);
@@ -24,7 +24,7 @@ public:
         }
     }
     vector<TreeNode*> delNodes(TreeNode* root, vector<int>& to_delete) {
-        vector<bool>isFound(1001,false);
+        unordered_map<int,bool>isFound;
         for(auto &x : to_delete) {
             isFound[x] = true;
         }

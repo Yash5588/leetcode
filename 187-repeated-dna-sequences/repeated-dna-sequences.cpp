@@ -13,21 +13,20 @@ public:
     vector<string> findRepeatedDnaSequences(string s) {
         int n = s.length();
         if(n <= 10) return {};
-        vector<int> power(10);
-        power[0] = 1;
         int hash = 0;
         int radix = 1;
         for(int i=0;i<10;i++) {
+            hash = (hash + (hashVal(s[9-i])*radix) % MOD) % MOD;
             radix = (radix * 4) % MOD;
-            hash = (hash + (hashVal(s[i])*radix) % MOD) % MOD;
         }
+        radix /= 4;
         unordered_map<int,int> hashcount;
         hashcount[hash]++;
         vector<string> ans;
         for(int i=0;i<n-10;i++) {
-            hash /= 4;
-            hash -= hashVal(s[i]);
-            hash = (hash + (hashVal(s[i+10]) * radix) % MOD) % MOD;
+            hash = ((hash % MOD) - (hashVal(s[i])*radix) % MOD) % MOD;
+            hash = (hash * 4) % MOD;
+            hash = (hash + hashVal(s[i+10])) % MOD;
             if(hashcount[hash] != -1) {
                 hashcount[hash]++;
             }

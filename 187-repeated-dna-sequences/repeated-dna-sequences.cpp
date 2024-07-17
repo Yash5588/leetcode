@@ -19,13 +19,12 @@ public:
             hash = (hash + (hashVal(s[9-i])*radix) % MOD) % MOD;
             radix = (radix * 4) % MOD;
         }
-        radix /= 4;
         unordered_map<int,int> hashcount;
         hashcount[hash]++;
         vector<string> ans;
         for(int i=0;i<n-10;i++) {
-            hash = ((hash % MOD) - (hashVal(s[i])*radix) % MOD) % MOD;
             hash = (hash * 4) % MOD;
+            hash = ((hash % MOD) - (hashVal(s[i])*radix) % MOD) % MOD;
             hash = (hash + hashVal(s[i+10])) % MOD;
             if(hashcount[hash] != -1) {
                 hashcount[hash]++;

@@ -4,7 +4,8 @@ public:
     bool hasAllCodes(string s, int k) {
         int n = s.length();
         if(n <= k) return false;
-        unordered_set<int> hashs;
+        vector<bool> hasSeen(pow(2,k),false);
+        int count = 1;
         int hash = 0;
         int radix = 1;
         map<char,int> codes;
@@ -14,13 +15,17 @@ public:
             hash = (hash + (codes[s[k-i-1]]*radix) % MOD) % MOD;
             radix = (radix * 2) % MOD;
         }
-        hashs.insert(hash);
+        hasSeen[hash] = true;
         for(int i=0;i<n-k;i++) {
             hash = (hash*2)%MOD;
             hash = (hash - (codes[s[i]]*radix) % MOD) % MOD;
             hash = (hash + codes[s[i+k]]) % MOD;
-            hashs.insert(hash);
+            if(!hasSeen[hash]) {
+                hasSeen[hash] = true;
+                count++;
+                if(count == hasSeen.size()) return true;
+            }
         }
-        return hashs.size() == pow(2,k);
+        return false;
     }
 };

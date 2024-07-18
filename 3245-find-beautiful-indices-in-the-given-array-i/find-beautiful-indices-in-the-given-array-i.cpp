@@ -45,8 +45,16 @@ public:
         }
         vector<int> ans;
         for(auto &x : ind1) {
-            for(auto &y : ind2) {
-                if(abs(x-y) <= k) {
+            int low = 0,high = ind2.size()-1;
+            while(low <= high) {
+                int mid = (low + high)/2;
+                if(ind2[mid] > x + k) {
+                    high = mid-1;
+                }
+                else if(ind2[mid] < x-k) {
+                    low = mid+1;
+                }
+                else {
                     ans.push_back(x);
                     break;
                 }

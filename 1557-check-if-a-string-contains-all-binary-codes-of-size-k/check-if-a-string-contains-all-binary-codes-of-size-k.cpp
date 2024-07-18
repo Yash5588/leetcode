@@ -21,6 +21,6 @@ public:
             hash = (hash + codes[s[i+k]]) % MOD;
             hashs.insert(hash);
         }
-        return hashs.size() == (long long)pow(2,k);
+        return hashs.size() == pow(2,k);
     }
 };

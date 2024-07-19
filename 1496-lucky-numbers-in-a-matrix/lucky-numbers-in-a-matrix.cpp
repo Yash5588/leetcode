@@ -15,17 +15,12 @@ public:
             c_max[j] = ma;
         }
         vector<int> ans;
-        sort(c_max.begin(),c_max.end());
         for(auto &r : r_min) {
-            int low = 0, high = c_max.size()-1;
-            while(low <= high) {
-                int mid = low + (high - low)/2;
-                if(c_max[mid] == r) {
+            for(auto &c : c_max) {
+                if(r == c) {
                     ans.push_back(r);
                     break;
                 }
-                else if(c_max[mid] < r) low = mid+1;
-                else high = mid-1;
             }
         }
         return ans;

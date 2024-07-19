@@ -1,62 +1,44 @@
 class Solution {
 public:
-    int MOD = 1e9+33;
+    vector<int> kmp(string &s, string &pattern) {
+        string str = pattern + "#" + s;
+        int lpsize = pattern.length() + s.length() + 1;
+        vector<int> lps(lpsize,0);
+        for(int i=1;i<lpsize;i++) {
+            int prev_index = lps[i-1];
+            while(prev_index > 0 && str[i] != str[prev_index]) {
+                prev_index = lps[prev_index-1];
+            }
+            lps[i] = prev_index + (str[i] == str[prev_index]);
+        }
+        return lps;
+    }
     vector<int> beautifulIndices(string s, string a, string b, int k) {
-        int n = s.length(), alen = a.length(), blen = b.length();
-        if(n < alen || n < blen) return {};
-        unordered_map<char,int> codes;
-        for(char ch = 'a';ch <= 'z';ch++) {
-            codes[ch] = ch - 'a' + 1;
+        int n = s.length();
+        int alen = a.length(), blen = b.length();
+        vector<int> ind1, ind2;
+        vector<int> lps = kmp(s,a);
+        for(int i=0;i<lps.size();i++) {
+            if(lps[i] == alen) ind1.push_back(i-2*alen);
         }
-        vector<int> ind1,ind2;
-        long long ahash = 0;
-        long long bhash = 0;
-        long long hash = 0;
-        long long radix1 = 1;
-        long long radix2 = 1;
-        for(int i=0;i<alen;i++) {
-            ahash = ((ahash + (codes[a[alen-i-1]]*radix1) % MOD) + MOD) % MOD;
-            hash = ((hash + (codes[s[alen-i-1]]*radix1) % MOD) + MOD) % MOD;
-            radix1 = (((radix1 * 26) % MOD) + MOD) % MOD;//
-        }
-        if(hash == ahash) ind1.push_back(0);
-        for(int i=0;i<n-alen;i++) {
-            hash = (hash * 26) % MOD;
-            hash = ((hash - (codes[s[i]]*radix1) % MOD) + MOD) % MOD;
-            hash = (hash + codes[s[i+alen]]) % MOD;
-            if(hash == ahash) {
-                ind1.push_back(i+1);
-            }
-        }
-        hash = 0;
-        for(int i=0;i<blen;i++) {
-            bhash = ((bhash + (codes[b[blen-i-1]]*radix2) % MOD) + MOD) % MOD;
-            hash = ((hash + (codes[s[blen-i-1]]*radix2) % MOD) + MOD) % MOD;
-            radix2 = (radix2 * 26) % MOD;
-        }
-        if(hash == bhash) ind2.push_back(0);
-        for(int i=0;i<n-blen;i++) {
-            hash = (hash * 26) % MOD;
-            hash = ((hash - (codes[s[i]]*radix2) % MOD) + MOD) % MOD;
-            hash = (hash + codes[s[i+blen]]) % MOD;
-            if(hash == bhash) {
-                ind2.push_back(i+1);
-            }
+        lps = kmp(s,b);
+        for(int i=0;i<lps.size();i++) {
+            if(lps[i] == blen) ind2.push_back(i-2*blen);
         }
         vector<int> ans;
         for(auto &x : ind1) {
-            int low = 0,high = ind2.size()-1;
+            int low = 0, high = ind2.size()-1;
             while(low <= high) {
-                int mid = (low + high)/2;
-                if(ind2[mid] > x + k) {
-                    high = mid-1;
-                }
-                else if(ind2[mid] < x-k) {
-                    low = mid+1;
-                }
-                else {
+                int mid = low + (high - low)/2;
+                if(ind2[mid] >= x-k && ind2[mid] <= x+k) {
                     ans.push_back(x);
                     break;
+                }
+                else if(x+k < ind2[mid]) {
+                    high = mid-1;
+                }
+                else {
+                    low = mid+1;
                 }
             }
         }

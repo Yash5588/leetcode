@@ -1,35 +1,24 @@
 class Solution {
 public:
-    int MOD1 = 1e9+7;
-    int MOD2 = 1e9+33;
+    vector<int> kmp(string &s, string &pattern) {
+        string str = pattern + '#' + s;
+        vector<int> lps(str.size(),0);
+        for(int i=1;i<str.size();i++) {
+            int prev_index = lps[i-1];
+            while(prev_index>0 && str[prev_index] != str[i]) {
+                prev_index = lps[prev_index-1];
+            }
+            lps[i] = prev_index + (str[prev_index] == str[i]);
+        }
+        return lps;
+    }
     int strStr(string s, string pattern) {
         int n = s.length();
         int m = pattern.size();
-        long long radix1 = 1,radix2 = 1;
-        unordered_map<char,int> codes;
-        for(char ch='a';ch<='z';ch++) {
-            codes[ch] = ch-'a'+1;
+        vector<int> lps = kmp(s,pattern);
+        for(int i=0;i<lps.size();i++) {
+            if(lps[i] == m) return i-2*m;
         }
-        pair<long long, long long> hash1, hash2;
-        if(m > n) return -1;
-        for(int i=0;i<m;i++) {
-            hash1.first = ((hash1.first + (codes[s[m-i-1]]*radix1) % MOD1) + MOD1) % MOD1;
-            hash1.second = ((hash1.second + (codes[s[m-i-1]]*radix2) % MOD2) + MOD2) % MOD2;
-            hash2.first = ((hash2.first + (codes[pattern[m-i-1]]*radix1) % MOD1) + MOD1) % MOD1;
-            hash2.second = ((hash2.second + (codes[pattern[m-i-1]]*radix2) % MOD2) + MOD2) % MOD2;
-            radix1 = (radix1 * 27) % MOD1;
-            radix2 = (radix2 * 33) % MOD2;
-        }
-        if(hash1.first == hash2.first && hash1.second == hash2.second) return 0;
-        for(int i=0;i<n-m;i++) {
-            hash1.first = (hash1.first * 27) % MOD1;
-            hash1.first = ((hash1.first - (codes[s[i]]*radix1) % MOD1) + MOD1) % MOD1;
-            hash1.first = (hash1.first + codes[s[m+i]]) % MOD1;
-            hash1.second = (hash1.second * 33) % MOD2;
-            hash1.second = ((hash1.second - (codes[s[i]]*radix2) % MOD2) + MOD2) % MOD2;
-            hash1.second = (hash1.second + codes[s[m+i]]) % MOD2;
-            if(hash1.first == hash2.first && hash1.second == hash2.second) return i+1;
-        }
-        return -1;
+        return -1; 
     }
 };

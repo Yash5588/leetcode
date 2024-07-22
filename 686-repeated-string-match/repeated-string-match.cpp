@@ -1,16 +1,34 @@
 class Solution {
 public:
-    vector<int> kmp(string &s, string &b) {
+    vector<int> zfunc(string &s, string &b) {
         string str = b + '#' + s;
-        vector<int> lps(str.size(),0);
+        int left=0,right = 0;
+        vector<int> z(str.size(),0);
         for(int i=1;i<str.size();i++) {
-            int prev_index = lps[i-1];
-            while(prev_index>0 && str[prev_index] != str[i]) {
-                prev_index = lps[prev_index-1];
+            if(i > right) {
+                left = right = i;
+                while(right < str.size() && str[right] == str[right-left]) {
+                    right++;
+                }
+                z[i] = right - left;
+                right--;
             }
-            lps[i] = prev_index + (str[prev_index] == str[i]);
+            else {
+                int ind = i - left;
+                if(i+z[ind] <= right) {
+                    z[i] = z[ind];
+                }
+                else {
+                    left = i;
+                    while(right < str.size() && str[right] == str[right-left]) {
+                        right++;
+                    }
+                    z[i] = right-left;
+                    right--;
+                }
+            }
         }
-        return lps;
+        return z;
     }
     int repeatedStringMatch(string a, string b) {
         if(a == b) return 1;
@@ -19,12 +37,10 @@ public:
         for(int i=0;i<=m/n;i++) {
             str += a;
         }
-        vector<int> lps = kmp(str,b);
-        for(int i=0;i<lps.size();i++) {
-            if(lps[i] == m) {
-                int ind = i-m;
-                if(ind%n) return ind/n+1;
-                return ind/n;
+        vector<int> z = zfunc(str,b);
+        for(int i=0;i<z.size();i++) {
+            if(z[i] == m) {
+                return (i-1)%n ? (i-1)/n+1 : (i-1)/n;
             }
         }
         return -1;

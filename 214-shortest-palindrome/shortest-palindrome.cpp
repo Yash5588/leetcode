@@ -1,23 +1,26 @@
 class Solution {
 public:
-    vector<int> kmp(string &s, string rev) {
-        string str = s + '#' + rev;
-        vector<int> lps(str.length(),0);
-        for(int i=1;i<str.length();i++) {
-            int prev_index = lps[i-1];
-            while(prev_index>0 && str[prev_index] != str[i]) {
-                prev_index = lps[prev_index-1];
-            }
-            lps[i] = prev_index + (str[prev_index] == str[i]);
-        }
-        return lps;
-    }
+    int MOD = 1e9+33;
     string shortestPalindrome(string s) {
         int n = s.length();
-        string rev = s;
-        reverse(rev.begin(),rev.end());
-        vector<int> lps = kmp(s,rev);
-        int len = lps[2*n];
-        return rev.substr(0,n-len) + s;
+        if(!n) return s;
+        unordered_map<char,int> codes;
+        for(char ch='a';ch<='z';ch++) {
+            codes[ch] = ch-'a'+1;
+        }
+        long long ind = 0;
+        long long hash1 = 0;
+        long long hash2 = 0;
+        long long radix = 1;
+        for(int i=0;i<n;i++) {
+            hash1 = (hash1 + codes[s[i]]);
+            hash2 = ((hash2 + (codes[s[i]]*radix) % MOD) + MOD) % MOD;
+            if(hash1 == hash2) ind = i;
+            hash1 = (hash1 * 26) % MOD;
+            radix = (radix * 26) % MOD;
+        }
+        string str = s.substr(ind+1);
+        reverse(str.begin(),str.end());
+        return str+s;
     }
 };

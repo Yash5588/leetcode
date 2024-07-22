@@ -1,49 +1,32 @@
 class Solution {
 public:
-    int MOD = 1e9+33;
+    vector<int> kmp(string &s, string &b) {
+        string str = b + '#' + s;
+        vector<int> lps(str.size(),0);
+        for(int i=1;i<str.size();i++) {
+            int prev_index = lps[i-1];
+            while(prev_index>0 && str[prev_index] != str[i]) {
+                prev_index = lps[prev_index-1];
+            }
+            lps[i] = prev_index + (str[prev_index] == str[i]);
+        }
+        return lps;
+    }
     int repeatedStringMatch(string a, string b) {
         if(a == b) return 1;
-        int n = a.length();
-        int m = b.length();
         string str = a;
-        unordered_map<char,int> codes;
-        for(char ch='a';ch<='z';ch++) {
-            codes[ch] = ch-'a'+1;
+        int n = a.length(),m = b.length();
+        for(int i=0;i<=m/n;i++) {
+            str += a;
         }
-        for(int i=0;i<((m%n)?m/n:m/n-1);i++) str += a;
-        long long hash = 0,radix = 1,phash = 0;
-        for(int i=0;i<m;i++) {
-            phash = ((phash + (codes[b[m-i-1]]*radix) % MOD) + MOD) % MOD;
-            hash = ((hash + (codes[str[m-i-1]]*radix) % MOD) + MOD) % MOD;
-            radix = (radix * 27) % MOD;
-        }
-        cout << str << endl;
-        if(hash == phash) {
-            if(n < m) return str.length()/n;
-            else return 1;
-        }
-        int i;
-        for(i=0;i<str.length()-m;i++) {
-            hash = (hash * 27) % MOD;
-            hash = ((hash - (codes[str[i]]*radix) % MOD) + MOD) % MOD;
-            hash = (hash + codes[str[i+m]]) % MOD;
-            if(hash == phash) {
-                if(n < m) {
-                    return str.length()/n;
-                }
-                else return 1;
+        vector<int> lps = kmp(str,b);
+        for(int i=0;i<lps.size();i++) {
+            if(lps[i] == m) {
+                int ind = i-m;
+                if(ind%n) return ind/n+1;
+                return ind/n;
             }
         }
-        str += a;
-        for(;i<str.length()-m;i++) {
-            hash = (hash * 27) % MOD;
-            hash = ((hash - (codes[str[i]]*radix) % MOD) + MOD) % MOD;
-            hash = (hash + codes[str[i+m]]) % MOD;
-            if(hash == phash) {
-                return str.length()/n;
-            }
-        }
-
         return -1;
     }
 };

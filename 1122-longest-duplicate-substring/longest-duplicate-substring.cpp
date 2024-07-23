@@ -21,8 +21,8 @@ public:
                 hash.second = ((hash.second + (codes[s[m-i-1]]*radix2) % MOD2) + MOD2) % MOD2;
                 radix2 = (radix2 * 33) % MOD2;
             }
-            map<pair<long long,long long>,int> hashcount;
-            hashcount[hash]++;
+            set<pair<long long,long long>> hashcount;
+            hashcount.insert(hash);
             for(int i=0;i<n-m;i++) {
                 hash.first = (hash.first * 27) % MOD1;
                 hash.first = ((hash.first - (codes[s[i]]*radix1) % MOD1) + MOD1) % MOD1;
@@ -30,12 +30,12 @@ public:
                 hash.second = (hash.second * 33) % MOD2;
                 hash.second = ((hash.second - (codes[s[i]]*radix2) % MOD2) + MOD2) % MOD2;
                 hash.second = (hash.second + codes[s[m+i]]) % MOD2;
-                hashcount[hash]++;
-                if(hashcount[hash] > 1) {
+                if(hashcount.count(hash)) {
                     ans = s.substr(i+1,m);
                     flag = true;
                     break;
                 }
+                hashcount.insert(hash);
             }
             if(flag) {
                 low = m+1;

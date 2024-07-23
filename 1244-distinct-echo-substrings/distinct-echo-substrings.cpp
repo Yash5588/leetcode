@@ -4,10 +4,10 @@ public:
     int distinctEchoSubstrings(string s) {
         int n = s.size();
         unordered_map<char,int> codes;
+        unordered_set<long long> hashVal;
         long long total = 0;
         for(char ch='a';ch<='z';ch++) codes[ch] = ch-'a'+1;
         for(int k=1;k<=n/2;k++) {
-            unordered_set<long long> hashVal;
             int first = 0,last = 2*k-1;
             long long hash1 = 0,hash2 = 0,radix1 = 1,radix2 = 1;
             for(int i=first;i<=k-1;i++) {
@@ -28,10 +28,9 @@ public:
                 hash2 = (hash2 * 26) % MOD;
                 hash2 = ((hash2 - (codes[s[k+i]]*radix2) % MOD) + MOD) % MOD;
                 hash2 = (hash2 + codes[s[i+2*k]]) % MOD;
-                if(hash1 == hash2) hashVal.insert(hash2); 
+                if(hash1 == hash2) hashVal.insert(hash1);
             }
-            total += hashVal.size();
         }
-        return total;
+        return hashVal.size();
     }
 };

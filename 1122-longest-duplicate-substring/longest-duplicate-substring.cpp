@@ -44,14 +44,6 @@ public:
                 high = m-1;
             }
         }
-        // if(ans.empty()) {
-        //     vector<bool> check(26,false);
-        //     string str;
-        //     for(auto &x : s) {
-        //         if(check[x-'a']) return str+x;
-        //         check[x-'a'] = true;
-        //     }
-        // }
         return ans;
     }
 };

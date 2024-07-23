@@ -30,17 +30,35 @@ public:
         str += to_string(root->val);
         inorder(root->right,str);
     }
-    vector<int> kmp(string &s, string &pattern) {
+    vector<int> zfunc(string &s, string pattern) {
         string str = pattern + '#' + s;
-        vector<int> lps(str.size(),0);
+        vector<int> z(str.size(),0);
+        int left = 0,right = 0;
         for(int i=1;i<str.size();i++) {
-            int prev_index = lps[i-1];
-            while(prev_index>0 && str[i] != str[prev_index]) {
-                prev_index = lps[prev_index-1];
+            if(i > right) {
+                left = right = i;
+                while(right < str.size() && str[right] == str[right-left]) {
+                    right++;
+                }
+                z[i] = right - left;
+                right--;
             }
-            lps[i] = prev_index + (str[i] == str[prev_index] ? 1 : 0);
+            else {
+                int ind = i - left;
+                if(i + z[ind] <= right) {
+                    z[i] = z[ind];
+                }
+                else {
+                    left = i;
+                    while(right < str.size() && str[right] == str[right-left]) {
+                        right++;
+                    }
+                    z[i] = right-left;
+                    right--;
+                }
+            }
         }
-        return lps;
+        return z;
     }
     bool isSubtree(TreeNode* root, TreeNode* subRoot) {
         string s1, pattern1, s2, pattern2;
@@ -48,21 +66,21 @@ public:
         inorder(subRoot,pattern1);
         postorder(root,s2);
         postorder(subRoot,pattern2);
-        vector<int> lps1 = kmp(s1,pattern1);
-        vector<int> lps2 = kmp(s2,pattern2);
-        bool left = false,right = false;
-        for(int i=0;i<lps1.size();i++) {
-            if(lps1[i] == pattern1.size())  {
+        vector<int> z1 = zfunc(s1,pattern1);
+        vector<int> z2 = zfunc(s2,pattern2);
+        bool left = false, right = false;
+        for(auto &x : z1) {
+            if(x == pattern1.size()) {
                 left = true;
                 break;
             }
         }
-        for(int i=0;i<lps2.size();i++) {
-            if(lps2[i] == pattern2.size()) {
+        for(auto &x : z2) {
+            if(x == pattern2.size()) {
                 right = true;
                 break;
             }
         }
-        return left & right;
+        return right & left;
     }
 };

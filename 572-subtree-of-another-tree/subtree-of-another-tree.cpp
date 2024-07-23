@@ -11,29 +11,58 @@
  */
 class Solution {
 public:
-    bool flag = false;
-    bool check(TreeNode* root, TreeNode* subRoot) {
-        if(!root && !subRoot) return true;
-        if(!root || !subRoot) return false;
-        if(root->val == subRoot->val) {
-            bool ans = true;
-            ans &= check(root->left,subRoot->left);
-            ans &= check(root->right,subRoot->right);
-            return ans;
+    void postorder(TreeNode* root, string &str) {
+        if(!root) {
+            str += '$';
+            return;
         }
-        return false;
+        postorder(root->left,str);
+        postorder(root->right,str);
+        str += to_string(root->val);
     }
-    void postorder(TreeNode* root, TreeNode* subRoot) {
-        if(!root) return;
-        if(flag) return;
-        if(root->val == subRoot->val) {
-            flag = check(root,subRoot);
+
+    void inorder(TreeNode* root, string &str) {
+        if(!root) {
+            str += '$';
+            return;
         }
-        postorder(root->left,subRoot);
-        postorder(root->right,subRoot);
+        inorder(root->left,str);
+        str += to_string(root->val);
+        inorder(root->right,str);
+    }
+    vector<int> kmp(string &s, string &pattern) {
+        string str = pattern + '#' + s;
+        vector<int> lps(str.size(),0);
+        for(int i=1;i<str.size();i++) {
+            int prev_index = lps[i-1];
+            while(prev_index>0 && str[i] != str[prev_index]) {
+                prev_index = lps[prev_index-1];
+            }
+            lps[i] = prev_index + (str[i] == str[prev_index] ? 1 : 0);
+        }
+        return lps;
     }
     bool isSubtree(TreeNode* root, TreeNode* subRoot) {
-        postorder(root,subRoot);
-        return flag;
+        string s1, pattern1, s2, pattern2;
+        inorder(root,s1);
+        inorder(subRoot,pattern1);
+        postorder(root,s2);
+        postorder(subRoot,pattern2);
+        vector<int> lps1 = kmp(s1,pattern1);
+        vector<int> lps2 = kmp(s2,pattern2);
+        bool left = false,right = false;
+        for(int i=0;i<lps1.size();i++) {
+            if(lps1[i] == pattern1.size())  {
+                left = true;
+                break;
+            }
+        }
+        for(int i=0;i<lps2.size();i++) {
+            if(lps2[i] == pattern2.size()) {
+                right = true;
+                break;
+            }
+        }
+        return left & right;
     }
 };

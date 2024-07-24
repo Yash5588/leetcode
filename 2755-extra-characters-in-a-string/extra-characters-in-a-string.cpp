@@ -1,6 +1,6 @@
 class Solution {
 public:
-    long long dp[1000];
+    long long dp[52];
     long long split(string &s, unordered_set<string> &words, int pos) {
         if(pos >= s.length()) return 0;
         if(dp[pos] != -1) return dp[pos];

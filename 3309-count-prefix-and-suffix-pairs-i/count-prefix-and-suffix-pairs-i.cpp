@@ -1,5 +1,5 @@
 struct Node{
-    Node* links[26*26 + 26];
+    unordered_map<int,Node*> links;
     int count = 0;
 
     bool isContains(int ind) {

@@ -13,12 +13,7 @@ public:
             sta.push(nums2[i]);
         }
         for(int i=0;i<nums1.size();i++) {
-            if(nextGreat[nums1[i]]) {
-                nums1[i] = nextGreat[nums1[i]];
-            }
-            else {
-                nums1[i] = -1;
-            }
+            nums1[i] = nextGreat[nums1[i]];
         }
         return nums1;
     }

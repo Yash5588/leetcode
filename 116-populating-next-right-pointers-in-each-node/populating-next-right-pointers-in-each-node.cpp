@@ -18,32 +18,21 @@ public:
 
 class Solution {
 public:
+    bool isLeaf(Node* root) {
+        return root->left == nullptr && root->right == nullptr;
+    }
     Node* connect(Node* root) {
-        if(!root) return root;
-        queue<Node*> q;
-        q.push(root);
-        while(!q.empty()) {
-            int n = q.size();
-            Node* prev = nullptr;
-            Node* nex = nullptr;
-            for(int i=0;i<n;i++) {
-                if(i == 0) {
-                    prev = nex = q.front();
-                }
-                else {
-                    nex = q.front();
-                    prev->next = nex;
-                    prev = nex;
-                }
-                q.pop();
-                if(nex->left) {
-                    q.push(nex->left);
-                } 
-                if(nex->right) {
-                    q.push(nex->right);
-                }
-            }
+        if(!root || isLeaf(root)) return root;
+        root->left->next = root->right;
+        Node* lnode = root->left;
+        Node* rnode = root->right;
+        while(lnode->right) {
+            lnode->right->next = rnode->left;
+            lnode = lnode->right;
+            rnode = rnode->left;   
         }
+        connect(root->left);
+        connect(root->right);
         return root;
     }
 };

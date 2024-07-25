@@ -12,9 +12,7 @@ public:
             else nextGreat[nums2[i]] = sta.top();
             sta.push(nums2[i]);
         }
-        for(int i=0;i<nums1.size();i++) {
-            nums1[i] = nextGreat[nums1[i]];
-        }
+        for(auto &x : nums1) x = nextGreat[x];
         return nums1;
     }
 };

@@ -30,8 +30,6 @@ public:
         if(last == -1) {
             return 0;
         }
-        if(first < last) return last-first+3;
-        return first-last+1;
-        
+       return first-last+1;
     }
 };

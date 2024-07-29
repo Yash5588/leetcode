@@ -12,11 +12,11 @@ public:
             }
             if(!sta1.empty()) {
                 first = i;
-            // why i-1? because there is element which is greater than current element i so we need to consider i-1;
+            // we need to find the index of previous greater element
             }
             sta1.push(nums[i]);
         }
-        //need to find upper boundary so to find that we iterate from last and find next smaller element
+
         for(int i=n-1;i>=0;i--) {
             while(!sta2.empty() && sta2.top() >= nums[i]) {
                 sta2.pop();
@@ -24,12 +24,13 @@ public:
             if(!sta2.empty()) {
                 last = i;
             }
-            //why i+1? same as above reason we need to consider next element also
+            //we need to find the last index for next smaller element
             sta2.push(nums[i]);
         }
         if(last == -1) {
             return 0;
         }
-       return first-last+1;
+        //this is the interval length for sorting largest length
+        return first-last+1;
     }
 };

@@ -26,7 +26,6 @@ public:
         }
         long long ans = 0;
         for(int i=0;i<n;i++) {
-            cout << left[i] << ' ' << right[i] << endl;
             ans = (((ans + ((left[i]*right[i]) % MOD) * arr[i]) % MOD) + MOD) % MOD;
         }
         return ans;

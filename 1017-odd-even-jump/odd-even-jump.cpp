@@ -29,12 +29,16 @@ public:
             }
             sta2.push(ind_pairs[i].second);
         }
+
+        //we are using linear dp  to find whether we can reach end by precomputed states after odd jump we compare with even dp of that index whether we can reach or not same as for even
         vector<bool> even_dp(n,false),odd_dp(n,false);
         even_dp[n-1] = odd_dp[n-1] = true; 
         for(int i=n-2;i>=0;i--) {
             odd_dp[i] = even_dp[odd_jumps[i]];
             even_dp[i] = odd_dp[even_jumps[i]];
         }
+
+        //we only calculate odd dp becoz we start with odd jump at every index and checking whether we can reach or not
         int ans = 0;
         for(auto x : odd_dp) ans += x; 
         return ans;

@@ -10,14 +10,11 @@ public:
         int mi = INT_MAX;
         for(int last=0;last<=n;last++) {
             while((first<last) && (prefix[last] - prefix[first] >= target)) {
-                first++;
                 mi = min(mi, last-first);
+                first++;
             }
-            // if(prefix[last] - prefix[first] >= target) {
-            //     mi = min(mi, last-first);
-            // }
         }
-        if(mi != INT_MAX) return mi+1;
+        if(mi != INT_MAX) return mi;
         return 0;
     }
 };

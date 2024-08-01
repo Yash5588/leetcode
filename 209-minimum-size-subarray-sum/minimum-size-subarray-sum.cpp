@@ -13,9 +13,9 @@ public:
                 first++;
                 mi = min(mi, last-first);
             }
-            if(prefix[last] - prefix[first] >= target) {
-                mi = min(mi, last-first);
-            }
+            // if(prefix[last] - prefix[first] >= target) {
+            //     mi = min(mi, last-first);
+            // }
         }
         if(mi != INT_MAX) return mi+1;
         return 0;

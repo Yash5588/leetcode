@@ -10,8 +10,10 @@ public:
         mp[end]--;
         int sum = 0;
         for(auto &x: mp) {
+            //prefix sum
             sum += x.second;
             if(sum >= 3) {
+                //removing the current range if not applicable
                 mp[start]--;
                 mp[end]++;
                 return false;

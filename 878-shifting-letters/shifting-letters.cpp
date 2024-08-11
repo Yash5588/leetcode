@@ -9,7 +9,7 @@ public:
         }
         string ans;
         for(int i=0;i<n;i++) {
-            ans += char((((int(s[i]) + suffix[i]) % 97) % 26) + 97);
+            ans += (((s[i]-'a') + suffix[i]) % 26) + 'a';
         }
         return ans;
 

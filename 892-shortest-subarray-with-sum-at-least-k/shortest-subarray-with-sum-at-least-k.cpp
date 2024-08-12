@@ -8,7 +8,7 @@ public:
         mp[0] = -1;
         for(int i=0;i<n;i++) {
             sum += nums[i];
-            while(mp.begin()->first <= sum-k && mp.begin() != mp.end()) {
+            while(!mp.empty() && mp.begin()->first <= sum-k) {
                 mi = min(mi, i - mp.begin()->second);
                 mp.erase(mp.begin());
             }

@@ -9,7 +9,10 @@ public:
     }
     int inc = 0;
     int pickIndex() {
+        //picking random point
         int ind = rand() % prefix.back();
+
+        //checking this point belongs to which weight
         int index = upper_bound(prefix.begin(),prefix.end(),ind) - prefix.begin();
         return index;
 

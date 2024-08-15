@@ -40,6 +40,7 @@ public:
                 //so we will keep prev as previously popped zero index
                 //we will subtract sum with (diff - 1) so that we can get how many consecutive ones we are loosing
                 if(!que.empty()) {
+                    //this is like the window is sliding for zeros
                     sum -= (que.front() - prev - 1);
                     prev = que.front();
                     que.pop();

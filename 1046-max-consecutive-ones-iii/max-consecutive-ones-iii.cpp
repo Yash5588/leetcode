@@ -3,7 +3,6 @@ public:
     int longestOnes(vector<int>& nums, int k) {
         int n = nums.size();
         queue<int> que;
-        int p = k;
         int ma = INT_MIN;
         for(int i=0;i<n;i++) {
             if(k == 0) {
@@ -12,9 +11,9 @@ public:
             }
             if(nums[i] == 0) {
                 que.push(i);
-                p--;
+                k--;
             }
-            if(!p) {
+            if(!k) {
                 ma = i+1;
                 break;
             }
@@ -39,6 +38,5 @@ public:
             }
         }
         return ma;
-
     }
 };

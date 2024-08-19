@@ -4,7 +4,7 @@ public:
         int n = nums.size();
         stack<int> sta,sta2;
         for(int i=0;i<n;i++) {
-            if(!sta.empty() && sta.top() == nums[i]) {
+            while(!sta.empty() && sta.top() == nums[i]) {
                 sta.pop();
             }
             sta.push(nums[i]);

@@ -1,23 +1,16 @@
 class Solution {
 public:
     int removeDuplicates(vector<int>& nums) {
-        int n = nums.size();
-        stack<int> sta,sta2;
-        for(int i=0;i<n;i++) {
-            while(!sta.empty() && sta.top() == nums[i]) {
-                sta.pop();
+        int i = 0,j = 1,n = nums.size();
+        while(j<n) {
+            while(j < n && nums[i] == nums[j]) {
+                j++;
             }
-            sta.push(nums[i]);
+            if(j < n) {
+                nums[i+1] = nums[j];
+                i++;
+            }
         }
-        while(!sta.empty()) {
-            sta2.push(sta.top());
-            sta.pop();
-        }
-        int c= sta2.size();
-        for(int i=0;i<c;i++) {
-            nums[i] = sta2.top();
-            sta2.pop();
-        }
-        return c;
+        return i+1;
     }
 };

@@ -12,46 +12,41 @@ class Solution {
 public:
     ListNode* partition(ListNode* head, int x) {
         if(!head) return nullptr;
-        ListNode* temp = head;
-        ListNode* last = nullptr;
-        ListNode* prev = nullptr;
-        if(head->val >= x) {
-            prev = last = head;
-        }
-        else {
-            while(temp != nullptr) {
-                if(temp->val >= x) {
-                    last = temp;
-                    break;
+        ListNode* small = nullptr;
+        ListNode* large = nullptr;
+        ListNode* largeHead = nullptr;
+        ListNode* smallHead = nullptr;
+        while(head != nullptr) {
+            if(head->val < x) {
+                if(smallHead == nullptr) {
+                    small = smallHead = head;
                 }
-                prev = temp;
-                temp = temp->next;
-            }
-        }
-        bool headFlag = false;
-        ListNode* newHead = nullptr;
-        if(last == head) {
-            prev = new ListNode(x);
-            newHead = prev;
-            prev->next = newHead;
-            headFlag = true;
-        }
-        temp = last;
-        ListNode* prev2 = last;
-        while(temp != nullptr) {
-            if(temp->val < x) {
-                prev2->next = temp->next;
-                prev->next = new ListNode(temp->val);
-                prev = prev->next;
-                temp = temp->next;
+                else {
+                    small->next = head;
+                    small = small->next;
+                }
             }
             else {
-                prev2 = temp;
-                temp = temp->next;
+                if(largeHead == nullptr) {
+                    large = largeHead = head;
+                }
+                else {
+                    large->next = head;
+                    large = large->next;
+                }
             }
+            head = head->next;
         }
-        prev->next = last;
-        if(headFlag) return newHead->next;
-        return head;
+        if(smallHead == nullptr) {
+            large->next = nullptr;
+            return largeHead;
+        }
+        if(largeHead == nullptr) {
+            small->next = nullptr;
+            return smallHead;
+        }
+        small->next = largeHead;
+        large->next = nullptr;
+        return smallHead;
     }
 };

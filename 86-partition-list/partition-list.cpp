@@ -16,6 +16,7 @@ public:
         ListNode* large = nullptr;
         ListNode* largeHead = nullptr;
         ListNode* smallHead = nullptr;
+        //simple two pointer approach create smaller and larger lists
         while(head != nullptr) {
             if(head->val < x) {
                 if(smallHead == nullptr) {
@@ -37,14 +38,17 @@ public:
             }
             head = head->next;
         }
+        //if no small list make large list as main list
         if(smallHead == nullptr) {
             large->next = nullptr;
             return largeHead;
         }
+        //if no large list make small list as main list
         if(largeHead == nullptr) {
             small->next = nullptr;
             return smallHead;
         }
+        //if both lists present then merge both lists
         small->next = largeHead;
         large->next = nullptr;
         return smallHead;

@@ -1,5 +1,6 @@
 class Solution {
 public:
+    //nlogn
     int getPairs(vector<int> &nums, int dist) {
         int i = 0,n = nums.size();
         int pairs = 0;

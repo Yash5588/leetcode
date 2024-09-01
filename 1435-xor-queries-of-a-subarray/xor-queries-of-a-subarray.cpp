@@ -5,11 +5,13 @@ public:
         int m = queries.size();
         vector<int> res;
         vector<int> prefix_xor(n,0);
+        //just like prefix sum calculate prefix xor
         prefix_xor[0] = arr[0];
         for(int i=1;i<n;i++) {
             prefix_xor[i] = prefix_xor[i-1] ^ arr[i];
-        }
+        } 
         for(auto &q : queries) {
+            //xor[right] - xor[left-1] for any range of [l,r]
             if(q[0] == 0) res.push_back(prefix_xor[q[1]]);
             else res.push_back(prefix_xor[q[1]] ^ prefix_xor[q[0] - 1]);
         }

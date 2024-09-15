@@ -1,6 +1,7 @@
 class Solution {
 public:
-    //dfs TC = (m*n)^2 , Sc = (m*n)
+    //dfs 
+    //TC = (m*n)^2 , Sc = (m*n)
     vector<pair<int,int>> adj = {{-1,0},{0,-1},{0,1},{1,0}};
     void dfs(vector<vector<int>> &grid, int row, int col, vector<vector<bool>> &visited) {
         int n = grid.size();

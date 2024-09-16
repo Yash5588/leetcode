@@ -1,5 +1,6 @@
 class TextEditor {
 public:
+    //maniac problem took 4 hours
     list<char> lst;
     list<char> ::iterator iter = lst.begin(),temp;
     TextEditor() {

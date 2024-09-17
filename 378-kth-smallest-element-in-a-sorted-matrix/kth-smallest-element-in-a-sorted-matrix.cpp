@@ -1,14 +1,25 @@
 class Solution {
 public:
+    int getCount(vector<vector<int>> &matrix, int ele) {
+        int n = matrix.size();
+        int count = 0;
+        for(int row = 0;row < n;row++) {
+            count += upper_bound(matrix[row].begin(),matrix[row].end(),ele) - matrix[row].begin();
+        }
+        return count;
+    }
     int kthSmallest(vector<vector<int>>& matrix, int k) {
         int n = matrix.size();
-        priority_queue<int> que;
-        for(int i = 0;i < n;i++) {
-            for(int j = 0;j < n;j++) {
-                que.push(matrix[i][j]);
-                if(que.size() > k) que.pop();
+        int low = matrix[0][0],high = matrix[n-1][n-1];
+        int ans = -1;
+        while(low <= high) {
+            int mid = low + (high - low)/2;
+            if(getCount(matrix,mid) >= k) {
+                ans = mid;
+                high = mid - 1;
             }
+            else low = mid + 1;
         }
-        return que.top();
+        return ans;
     }
 };

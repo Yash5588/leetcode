@@ -1,5 +1,8 @@
 class Solution {
 public:
+    //TC : O((n + m)^2) SC : O(n): 
+    //we need to modulo in the end only becoz if we do in middle the actual 
+    //max gets reduces and we get wrong result
     int mod = 1e9+7;
     long long dp[100002][2];
     long long solve(vector<int> &nums1, vector<int> &nums2, unordered_map<int,int> &map1, unordered_map<int,int> &map2, int pos, bool infirst) {

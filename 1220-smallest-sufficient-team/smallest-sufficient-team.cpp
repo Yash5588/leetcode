@@ -5,8 +5,11 @@ public:
     unordered_map<int,int> dp;
     void solve(vector<int> &people_mask, int pos, vector<int> &temp, int mask, int target) {
         int n = people_mask.size();
+        //check if the target mask is attained
         if(mask == target) {
+            //if so then check if we have less size than previous result
             if(temp.size() < res_size) {
+                //if so assign temp as result
                 res = temp;
                 res_size = temp.size();
             }
@@ -15,9 +18,15 @@ public:
         if(pos >= n) {
             return;
         }
+        //in our current route if our temp size crosses result
+        //it is of no use even if target mask is attainted
+        //so block that route
         if(temp.size() > res_size) return;
+        //key generation
         long long key = (pos << 16) | mask;
         if(dp.find(key) != dp.end()) {
+            //if key is found but it's size is less compared our temp
+            //so it is of no use so block this route
             if(dp[key] <= temp.size()) return;
         }
         temp.push_back(pos);

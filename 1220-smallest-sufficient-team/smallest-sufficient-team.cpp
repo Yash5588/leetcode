@@ -24,8 +24,7 @@ public:
         solve(people_mask,pos+1,temp,mask | people_mask[pos],target);
         temp.pop_back();
         solve(people_mask,pos+1,temp,mask,target);
-        if(temp.size() > 0) dp[key] = temp.size();
-        else dp[key] = -1;
+        dp[key] = temp.size();
     }
     vector<int> smallestSufficientTeam(vector<string>& req_skills, vector<vector<string>>& people) {
         int n = req_skills.size();

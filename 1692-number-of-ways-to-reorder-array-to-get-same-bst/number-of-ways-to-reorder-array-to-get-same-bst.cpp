@@ -1,5 +1,6 @@
 class Solution {
 public:
+    //TC : O(n^2) SC: O(n^2)
     int mod = 1e9+7;
     long long postorder(vector<int> &nums, vector<vector<long long>> &ncr) {
         int n = nums.size();
@@ -33,6 +34,8 @@ public:
         //         cout << i << ' ' << j << ' ' << ncr[i][j] << endl;
         //     }
         // }
+        //remove the current combination asked in problem
+        //we are actually including that also
         return ans - 1;
     }
 };

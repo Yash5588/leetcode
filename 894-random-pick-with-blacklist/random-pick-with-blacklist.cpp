@@ -4,7 +4,11 @@ public:
     vector<int> nums;
     int size;
     Solution(int n, vector<int>& blacklist) {
-        set<int> se(blacklist.begin(),blacklist.end());
+        //nlogn time 
+        //sorting and removing all the duplicates
+        unordered_set<int> se(blacklist.begin(),blacklist.end());
+        //get all the elements in range n which are not present
+        //in nums
         n = min(100000,n);
         for(int i = 0;i < n;i++) {
             if(!se.count(i)) nums.push_back(i); 

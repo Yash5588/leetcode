@@ -5,7 +5,7 @@ public:
     int size;
     Solution(int n, vector<int>& blacklist) {
         unordered_set<int> se(blacklist.begin(),blacklist.end());
-        n = min(50000,n);
+        n = min(20000,n);
         for(int i = 0;i < n;i++) {
             if(!se.count(i)) nums.push_back(i); 
         }

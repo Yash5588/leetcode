@@ -17,6 +17,8 @@ public:
     }
 
     int pick() {
+        //pick a random index and send it from nums 
+        //these are anyway not present in black box
         int ind = rand() % size;
         return nums[ind];
     }

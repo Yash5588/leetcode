@@ -9,7 +9,7 @@ public:
                 return mid;
             }
             if(mid == 0 || arr[mid-1] < arr[mid]) low = mid + 1;
-            else high = mid - 1;
+            if(mid == n-1 || arr[mid] > arr[mid+1]) high = mid - 1;
         }
         return -1;
     }

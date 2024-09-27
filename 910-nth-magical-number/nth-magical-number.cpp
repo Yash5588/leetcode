@@ -1,5 +1,6 @@
 class Solution {
 public:
+    //find the position of that number
     long long getNumPos(long long mid, int a, int b) {
         return mid/a + mid/b - mid/lcm(a,b);
     }
@@ -9,6 +10,9 @@ public:
         long long res = -1;
         while(low <= high) {
             long long mid = low + (high - low)/2;
+            //get the values which satisfies the position of n
+            //but they should be multiple of either a or b
+            //so we are going to store 
             if(getNumPos(mid,a,b) >= n) {
                 res = mid;
                 high = mid - 1;

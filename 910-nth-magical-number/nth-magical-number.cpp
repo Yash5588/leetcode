@@ -12,7 +12,8 @@ public:
             long long mid = low + (high - low)/2;
             //get the values which satisfies the position of n
             //but they should be multiple of either a or b
-            //so we are going to store 
+            //so we are going to store all values which can be of position n
+            //but we need smallest among them so we store ans at each iteration
             if(getNumPos(mid,a,b) >= n) {
                 res = mid;
                 high = mid - 1;

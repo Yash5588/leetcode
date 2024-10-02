@@ -36,7 +36,7 @@ public:
             if(steps <= k) {
                 int shift = startpos-(k-2*steps);
                 if(k > 2*steps) {
-                    ma = max(ma, right[i] + left[shift>0 ? shift : 0]);
+                    ma = max(ma, right[i] + left[shift>0 ? shift : fruits.front()[0]]);
                 }
                 else {
                     ma = max(ma, right[i]);

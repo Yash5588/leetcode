@@ -17,8 +17,6 @@ public:
             int head_row = curr[2];
             int head_col = curr[3];
             int cnt = curr[4];
-            cout << head_row << ' ' << head_col << ' ' << tail_row << ' ' << tail_col << endl;
-            cout << cnt << endl;
             if(tail_row == n-1 && tail_col == n-2 && head_row == n-1 && head_col == n-1) {
                 return cnt;
             }

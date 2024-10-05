@@ -20,14 +20,26 @@ public:
         for(auto &x : pre) {
             adj[x[1]].push_back(x[0]);
         }
-        vector<bool> visited(V,false);
-        vector<bool> path_visited(V,false);
-        //code to detect cycle in directed graph
+        queue<int> que;
+        int c = 0;
+        vector<int> indegree(V,0);
         for(int i = 0;i < V;i++) {
-            if(!visited[i]) {
-                if(isCycle(i, adj, visited, path_visited)) return false;
+            for(auto &x : adj[i]) {
+                indegree[x]++;
             }
         }
-        return true;
+        for(int i = 0;i < V;i++) {
+            if(indegree[i] == 0) que.push(i);
+        }
+        while(!que.empty()) {
+            int curr = que.front();
+            c++;
+            que.pop();
+            for(auto &x : adj[curr]) {
+                indegree[x]--;
+                if(indegree[x] == 0) que.push(x);
+            }
+        }
+        return c == V;
     }
 };

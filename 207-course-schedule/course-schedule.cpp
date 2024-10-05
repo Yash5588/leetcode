@@ -1,19 +1,5 @@
 class Solution {
 public:
-    bool isCycle(int node, vector<vector<int>> &adj, vector<bool> &visited, vector<bool> &path_visited) {
-        visited[node] = true;
-        path_visited[node] = true;
-        for(auto &child : adj[node]) {
-            if(!visited[child]) {
-                if(isCycle(child, adj, visited, path_visited)) return true;
-            }
-            else if(path_visited[child]) {
-                return true;
-            }
-        }
-        path_visited[node] = false;
-        return false;
-    }
     bool canFinish(int V, vector<vector<int>>& pre) {
         //graph conversion
         vector<vector<int>> adj(V, vector<int>());

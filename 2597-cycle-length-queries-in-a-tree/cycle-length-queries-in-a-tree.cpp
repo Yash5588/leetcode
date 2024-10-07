@@ -21,7 +21,10 @@ public:
                 small >>= 1;
                 cnt++;
             }
-            res.push_back(cnt + ind + 1);
+            int heightA = (int)log2(q[0]);
+            int heightB = (int)log2(q[1]);
+            int ances_height = (int)log2(larger_path[ind]);
+            res.push_back(heightA + heightB - 2*ances_height + 1);
         }
         return res;
     }

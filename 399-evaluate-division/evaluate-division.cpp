@@ -15,8 +15,6 @@ public:
     vector<double> calcEquation(vector<vector<string>>& equations, vector<double>& values, vector<vector<string>>& queries) {
         int n = values.size();
         for(int i = 0;i < n;i++) {
-            adj[equations[i][0]].push_back({equations[i][0], 1});
-            adj[equations[i][1]].push_back({equations[i][1], 1});
             adj[equations[i][0]].push_back({equations[i][1], values[i]});
             adj[equations[i][1]].push_back({equations[i][0], 1/values[i]});
         }

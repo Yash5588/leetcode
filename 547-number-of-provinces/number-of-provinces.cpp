@@ -17,7 +17,6 @@ public:
         for(int i = 0;i < V;i++) {
             if(!visited[i]) {
                 ans++;
-                cout << i << endl;
                 dfs(i, connect, visited);
             }
         }

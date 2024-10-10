@@ -1,10 +1,7 @@
 class Solution {
 public:
     unordered_set<int> even,odd;
-    unordered_map<int,bool> visited;
     bool dfs(int node, vector<vector<int>> &graph, int cnt) {
-        if(visited[node]) return true;
-        visited[node] = true;
         if(cnt & 1) odd.insert(node);
         else even.insert(node);
         // cout << node << endl;
@@ -38,7 +35,7 @@ public:
     bool isBipartite(vector<vector<int>>& graph) {
         int V = graph.size();
         for(int i = 0;i < V;i++) {
-            if(!visited[i]) {
+            if(!even.count(i) && !odd.count(i)) {
                 if(!dfs(i, graph, 0)) return false;
             }
         }

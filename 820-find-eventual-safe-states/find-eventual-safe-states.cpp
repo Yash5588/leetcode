@@ -1,36 +1,36 @@
 class Solution {
 public:
-    bool dfs(int node, vector<bool> &visited, vector<bool> &path_visited, vector<vector<int>> &adj) {
-        visited[node] = true;
-        path_visited[node] = true;
-        for(auto &child : adj[node]) {
-            if(!visited[child]) {
-                if(dfs(child, visited, path_visited,adj)) {
-                    return true;
-                }
-            }
-            else if(path_visited[child]) {
-                return true;
-            }
-        }
-        path_visited[node] = false;
-        return false;
-    }
+    unordered_map<int, vector<int>> adj;
     vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
         int V = graph.size();
-        vector<bool> visited(V,false);
-        vector<bool> path_visited(V,false);
         for(int i = 0;i < V;i++) {
-            if(!visited[i]) {
-                dfs(i, visited, path_visited, graph);
+            for(auto &x : graph[i]) {
+                adj[x].push_back(i);
             }
+        }
+        vector<int> indegree(V,0);
+        for(int i = 0;i < V;i++) {
+            for(auto &x : adj[i]) {
+                indegree[x]++;
+            }
+        }
+        queue<int> que;
+        for(int i = 0;i < V;i++) {
+            if(indegree[i] == 0) que.push(i);
         }
         vector<int> res;
-        for(int i = 0;i < V;i++) {
-            if(!path_visited[i]) {
-                res.push_back(i);
+        while(!que.empty()) {
+            int node = que.front();
+            que.pop();
+            res.push_back(node);
+            for(auto &x : adj[node]) {
+                indegree[x]--;
+                if(indegree[x] == 0) {
+                    que.push(x);
+                }
             }
         }
+        sort(res.begin(),res.end());
         return res;
     }
 };

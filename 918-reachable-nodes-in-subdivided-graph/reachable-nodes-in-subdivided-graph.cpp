@@ -48,15 +48,24 @@ public:
             }
         }
         int ans = 0;
+        //check for  main nodes
         for(auto &x : distance) {
             if(x <= maxMoves) ans++; 
         }
+        //for each edge check for sunbnodes based on shortest distance from source
         for(auto &x : edges) {
             int u = x[0];
             int v = x[1];
             int subnodes = x[2];
+            //check if moves reach the node in first place
+            //if they can't so 0
+            //otherwise now check number of subnodes it can cover
+            //from node u it covers dist[u] - moves right
+            //it should not exceed subnodes so keep a check on that
             int a = (distance[u] > maxMoves) ? 0 : min(maxMoves - distance[u], subnodes);
             int b = (distance[v] > maxMoves) ? 0 : min(maxMoves - distance[v], subnodes);
+            //get from u and v
+            //then add another checker that this total subnodes should not exceed subnodes in that edge
             int totalCoveredSubNodes = min(a+b, subnodes);
             ans += totalCoveredSubNodes;
         }

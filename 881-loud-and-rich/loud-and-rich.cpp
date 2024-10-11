@@ -1,20 +1,18 @@
 class Solution {
 public:
-    unordered_map<int,unordered_set<int>> adj;
+    unordered_map<int,vector<int>> adj;
     int getQuiet(int node, vector<int> &quiet, vector<int> &answer) {
         int min_node = node;
         for(auto &child : adj[node]) {
+            int no = -1;
             if(answer[child] == -1) {
-                int no =  getQuiet(child, quiet, answer);
-                if(quiet[no] < quiet[min_node]) {
-                    min_node = no;
-                }
+                no =  getQuiet(child, quiet, answer);
             }
             else {
-                int no = answer[child];
-                if(quiet[no] < quiet[min_node]) {
-                    min_node = no;
-                }
+                no = answer[child];
+            }
+            if(quiet[no] < quiet[min_node]) {
+                min_node = no;
             }
         }
         answer[node] = min_node;
@@ -23,7 +21,7 @@ public:
     vector<int> loudAndRich(vector<vector<int>>& richer, vector<int>& quiet) {
         int n = quiet.size();
         for(auto &x : richer) {
-            adj[x[1]].insert(x[0]);
+            adj[x[1]].push_back(x[0]);
         }
         vector<int> answer(n,-1);
         for(int i = 0;i < n;i++) {

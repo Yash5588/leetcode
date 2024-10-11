@@ -1,30 +1,6 @@
 class Solution {
 public:
     unordered_map<int, vector<pair<int,int>>> adj;
-    unordered_map<int,bool> visited;
-    map<pair<int,int>, int> left;
-    // int dfs(int node, int moves) {
-    //     visited[node] = true;
-    //     int cnt = 0;
-    //     for(auto &it : adj[node]) {
-    //         int child = it.first;
-    //         int dist = it.second;
-    //         if(!visited[child]) {
-    //             if(moves >= dist) {
-    //                 cnt += dist + dfs(child, moves - dist);
-    //             }
-    //             else {
-    //                 cnt += moves;
-    //                 left[{child,node}] = dist - moves - 1;
-    //             }
-    //         }
-    //         else {
-    //             cnt += min(moves, left[{node,child}]);
-    //         }
-    //         // if(node == 0) cout << child << ' ' << cnt << endl;
-    //     }
-    //     return cnt;
-    // }
     int reachableNodes(vector<vector<int>>& edges, int maxMoves, int n) {
         for(auto &x : edges) {
             adj[x[0]].push_back({x[1], x[2]+1});

@@ -53,14 +53,6 @@ public:
         for(auto &child : adj[0]) {
             assignScore(child,0,res);
         }
-        // for(int i = 1;i < n;i++) {
-        //     res[i] = res[node_parent[i]] - children[i] + (n - children[i]);
-            // cout <<  i << ' ' << score[node_parent[i]] << ' ' << res[i] << endl;
-        // }
-
-        // for(auto &x : node_parent) {
-        //     cout << x.first << ' ' << x.second << endl;
-        // }
         return res;
     }
 };

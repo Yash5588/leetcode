@@ -1,23 +1,22 @@
 class Solution {
 public:
     unordered_map<int,vector<int>> adj;
-    set<int> even;
-    set<int> odd;
-    int maxCnt = 0;
-    bool dfs(int node, int cnt) {
+    unordered_map<int,bool> visited;
+    bool dfs(int node, int cnt, unordered_set<int> &even, unordered_set<int> &odd) {
         if(cnt & 1) odd.insert(node);
         else even.insert(node);
+        visited[node] = true;
         for(auto &child : adj[node]) {
             if(cnt & 1) {
                 if(odd.find(child) != odd.end()) return false;
                 else if(even.find(child) == even.end()) {
-                    if(!dfs(child, cnt+1)) return false;
+                    if(!dfs(child, cnt+1,even, odd)) return false;
                 }
             }
             else {
                 if(even.find(child) != even.end()) return false;
                 else if(odd.find(child) == odd.end()) {
-                    if(!dfs(child, cnt+1)) return false;
+                    if(!dfs(child, cnt+1, even, odd)) return false;
                 }
             }
         }
@@ -30,10 +29,9 @@ public:
         int cnt = 0;
         bool flag = true;
         for(int i = 1;i <= n;i++) {
-            if(even.count(i) == 0 && odd.count(i) == 0) {
-                flag &= dfs(i, 0);
-                even.clear();
-                odd.clear();
+            if(!visited[i]) {
+                unordered_set<int> even,odd;
+                flag &= dfs(i, 0, even, odd);
                 if(!flag) return false;
             }
         }

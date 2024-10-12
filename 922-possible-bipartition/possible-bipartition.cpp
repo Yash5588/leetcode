@@ -1,8 +1,8 @@
 class Solution {
 public:
     unordered_map<int,vector<int>> adj;
-    unordered_set<int> even;
-    unordered_set<int> odd;
+    set<int> even;
+    set<int> odd;
     int maxCnt = 0;
     bool dfs(int node, int cnt) {
         if(cnt & 1) odd.insert(node);

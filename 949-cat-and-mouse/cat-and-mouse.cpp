@@ -89,7 +89,7 @@ public:
         }
         //after all traversal
         //if we reach the initial state then it would have contain the winner also in result
-        //if the initial state never reached it is definately draw no one is winner
+        //if the initial state never reached it is definately a draw no one is winner
         if(result.find({1,2,MOUSE}) != result.end()) return result[{1,2,MOUSE}];
         return DRAW;
     }

@@ -15,7 +15,7 @@ public:
             }
             else {
                 if(even.find(child) != even.end()) return false;
-                else if(odd.find(child) == odd.end()) {
+                else {
                     if(!dfs(child, cnt+1, even, odd)) return false;
                 }
             }

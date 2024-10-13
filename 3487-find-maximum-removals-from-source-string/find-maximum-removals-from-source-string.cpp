@@ -10,12 +10,20 @@ public:
             if(pos2 >= m) return 0;
             return INT_MIN;
         }
-        int ans = solve(s,pat,pos1+1,pos2);
-        if(indices.find(pos1) != indices.end()) {
-            ans = max(ans, 1 + solve(s,pat,pos1+1,pos2));
-        }
+        int ans = INT_MIN;
         if(pos2 < m && s[pos1] == pat[pos2]) {
             ans = max(ans, solve(s,pat,pos1+1,pos2+1));
+            if(indices.find(pos1) != indices.end()) {
+                ans = max(ans, 1 + solve(s,pat,pos1+1,pos2));
+            }
+        }
+        else {
+            if(indices.find(pos1) != indices.end()) {
+                ans = max(ans, 1 + solve(s,pat,pos1+1,pos2));
+            }
+            else {
+                ans = max(ans, solve(s,pat,pos1+1,pos2));
+            }
         }
         return dp[pos1][pos2] = ans;
     }

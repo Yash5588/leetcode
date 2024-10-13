@@ -15,7 +15,6 @@ public:
         int cnt = 0;
         for(int i = 0;i < stones.size();i++) {
             if(!visited[i]) {
-                cout << i << endl;
                 cnt++;
                 dfs(i,stones);
             }

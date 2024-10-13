@@ -12,7 +12,7 @@ public:
         }
         int ans = INT_MIN;
         //check if the current character can be included in the subsequence
-        if(pos2 < m && s[pos1] == pat[pos2]) {
+        if(s[pos1] == pat[pos2]) {
             //if both characters are equal then you have choice
             //we can consider it as subsequence or remove it 
             //if it is present in indices

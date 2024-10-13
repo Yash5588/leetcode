@@ -11,13 +11,22 @@ public:
             return INT_MIN;
         }
         int ans = INT_MIN;
+        //check if the current character can be included in the subsequence
         if(pos2 < m && s[pos1] == pat[pos2]) {
+            //if both characters are equal then you have choice
+            //we can consider it as subsequence or remove it 
+            //if it is present in indices
             ans = max(ans, solve(s,pat,pos1+1,pos2+1));
             if(indices.find(pos1) != indices.end()) {
                 ans = max(ans, 1 + solve(s,pat,pos1+1,pos2));
             }
         }
         else {
+            //if both characters are not equal or 2nd string is
+            //exhausted
+            //here also we can remove characters
+            //if we can remove it we will remove it
+            //otherwise we won't include that character
             if(indices.find(pos1) != indices.end()) {
                 ans = max(ans, 1 + solve(s,pat,pos1+1,pos2));
             }

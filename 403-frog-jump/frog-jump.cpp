@@ -4,7 +4,7 @@ public:
     bool solve(vector<int> &s, int pos, int prev) {
         int n = s.size();
         if(pos == n-1) return true;
-        if(pos >= n) return false;
+        // if(pos >= n) return false;
         string key = to_string(pos) + '#' + to_string(prev);
         if(dp.find(key) != dp.end()) return dp[key];
         for(int i = pos+1;i < n;i++) {

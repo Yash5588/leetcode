@@ -6,6 +6,14 @@ public:
         int m = grid[0].size();
         if(row1 >= n || row2 >= n || col1 >= m || col2 >= m) return INT_MIN;
         if(col1 < 0 || col2 < 0) return INT_MIN;
+        //why we are blocking same block path?
+        //becoz think of it if both robots pick same block will it result in max
+        //there might be a block which might have less val
+        //but if they both pick 5 suppose
+        //the result of that row is 5 
+        //but if there is another of 1 
+        //then we can pick 5 and 1 results in 6
+        //so there always exists a better or same result(all are 0 in a case) if we ignore same block
         if(row1 == row2 && col1 == col2) return INT_MIN;
         if(row1 == n-1 && row2 == n-1) {
             return grid[row1][col1] + grid[row2][col2];

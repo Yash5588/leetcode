@@ -44,23 +44,13 @@ public:
         vector<vector<int>> delets(n, vector<int>());
         for(int i = 0;i < n;i++) {
             string str = s.substr(i);
-            // cout << str << endl;
             vector<int> z = zfunc(str);
-            // for(auto &x : z) cout << x <
             for(int j = 0;j < str.length();j++) {
                 if(j > 0 && z[j] >= j) {
                     delets[i].push_back(j);
                 }
             }
         }
-        // for(int i = 0;i < n;i++) {
-        //     if(delets[i].empty()) continue;
-        //     cout << i << ' ' << s.substr(i) << endl;
-        //     for(auto &x : delets[i]) {
-        //         cout << x << ' ';
-        //     }
-        //     cout << endl;
-        // }
         memset(dp,-1,sizeof(dp));
         return solve(s,0,delets);
     }

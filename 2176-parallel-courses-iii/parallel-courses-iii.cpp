@@ -10,10 +10,10 @@ public:
             }
         }
         queue<int> que;
-        unordered_map<int,int> cost;
+        vector<int> dp(n+1,0);
         for(int i = 1;i <= n;i++) {
             if(indegree[i] == 0) {
-                cost[i] = time[i-1];
+                dp[i] = time[i-1];
                 que.push(i);
             }
         }
@@ -23,15 +23,13 @@ public:
             que.pop();
             for(auto &child : adj[node]) {
                 indegree[child]--;
-                cost[child] = max(cost[child],cost[node]+time[child-1]);
+                dp[child] = max(dp[child],dp[node]+time[child-1]);
                 if(indegree[child] == 0) {
                     que.push(child);
                 }
             }
         }
-        for(int i = 1;i <= n;i++) {
-            ma = max(ma, cost[i]);
-        }
+        ma = *max_element(dp.begin(),dp.end());
         return ma;
     }
 };

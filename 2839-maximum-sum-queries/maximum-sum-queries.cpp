@@ -22,7 +22,7 @@ public:
         sort(queries.begin(),queries.end(),greater<vector<int>> ());
         vector<pair<int,int>> stack;
         i = 0;
-        vector<int> res(queries.size());
+        vector<int> res(queries.size(),-1);
         for(auto &q : queries) {
             int x = q[0];
             int y = q[1];
@@ -36,7 +36,6 @@ public:
             int ind = lower_bound(stack.begin(),stack.end(),pair<int,int>{y,INT_MIN}) - stack.begin();
             // cout << stack.size() << endl;
             if(ind != stack.size()) res[res_ind] = stack[ind].second;
-            else res[res_ind] = -1;
         }
         return res;
     }

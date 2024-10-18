@@ -32,7 +32,7 @@ public:
                 update(stack,pairs[i].second,sum);
                 i++;
             }
-            for(auto &x : stack) cout << x.first << ' ' << x.second << endl;
+            // for(auto &x : stack) cout << x.first << ' ' << x.second << endl;
             int ind = lower_bound(stack.begin(),stack.end(),pair<int,int>{y,INT_MIN}) - stack.begin();
             // cout << stack.size() << endl;
             if(ind != stack.size()) res[res_ind] = stack[ind].second;

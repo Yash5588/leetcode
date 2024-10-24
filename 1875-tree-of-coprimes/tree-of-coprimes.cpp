@@ -1,0 +1,44 @@
+class Solution {
+public:
+    unordered_map<int,vector<int>> adj;
+    unordered_map<int,int> depth;
+    vector<int> coprimes;
+    vector<int> res;
+    void solve(vector<int> &nums, int node, int par) {
+        depth[node] = depth[par] + 1;
+        int prev = coprimes[nums[node]];
+        coprimes[nums[node]] = node;
+        // cout << node << endl;
+        for(auto &child : adj[node]) {
+            if(child == par) continue;
+            int ma = INT_MIN;
+            for(int i = 1;i <= 50;i++) {
+                // cout << i << ' ' << coprimes[i] << "   ";
+                int ances = coprimes[i];
+                if(ances != -1) {
+                    if(__gcd(nums[child],nums[ances]) == 1) {
+                        if(ma < depth[ances]) {
+                            ma = depth[ances];
+                            res[child] = ances;
+                        }
+                    }
+                }
+            }
+            // cout << endl;
+            solve(nums,child,node);
+        }
+        coprimes[nums[node]] = prev;
+    }
+    vector<int> getCoprimes(vector<int>& nums, vector<vector<int>>& edges) {
+        int n = nums.size();
+        vector<int> indegree(n,0);
+        for(auto &edge : edges) {
+            adj[edge[0]].push_back(edge[1]);
+            adj[edge[1]].push_back(edge[0]);
+        }
+        res.resize(n,-1);
+        coprimes.resize(51,-1);
+        solve(nums,0,-1);
+        return res;
+    }
+};

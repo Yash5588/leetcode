@@ -14,7 +14,7 @@ public:
             for(auto &x : curr) {
                 ans = min(ans, abs(x-target));
             }
-            sets[i] = prev;
+            // sets[i] = prev;
             sets[i+1] = curr;
         }
         return ans;

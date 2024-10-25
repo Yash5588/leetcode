@@ -1,8 +1,9 @@
 class DisjointSet{
 public:
-    vector<int> rank, parent;
+    vector<int> size, parent;
     DisjointSet(int n) {
-        rank.resize(n+1,0);
+        //initial size is 1
+        size.resize(n+1,1);
         parent.resize(n+1,0);
         //initially the parents are themselves
         for(int i = 0;i <= n;i++) {
@@ -18,28 +19,23 @@ public:
     }
 
     //to merge the both components based on rank
-    void unionByRank(int u, int v) {
+    void unionBySize(int u, int v) {
         //get the ultimate parents of both nodes
         //path compression is done on the way
         int ulp_u = findUPar(u);
         int ulp_v = findUPar(v);
         //both nodes belong to same component
         if(ulp_u == ulp_v) return;
-        //if rank is not same for ultimate parents
-        if(rank[ulp_u] < rank[ulp_v]) {
+        //smaller size component merges with larger size component
+        if(size[ulp_u] < size[ulp_v]) {
             parent[ulp_u] = ulp_v;
+            size[ulp_v] += size[ulp_u];
         }
-        else if(rank[ulp_u] > rank[ulp_v]) {
-            parent[ulp_v] = ulp_u;
-        }
-        //if rank is same then merge anyone of our choice
-        //then update the rank in this case.
         else {
             parent[ulp_v] = ulp_u;
-            rank[ulp_u]++;
+            size[ulp_u] += size[ulp_v];
         }
     }
-
 };
 class Solution {
 public:
@@ -49,7 +45,7 @@ public:
         for(int i = 0;i < n;i++) {
             for(int j = 0;j < n;j++) {
                 if(isConnected[i][j] == 1) {
-                    ds.unionByRank(i,j);
+                    ds.unionBySize(i,j);
                 }
             }
         }

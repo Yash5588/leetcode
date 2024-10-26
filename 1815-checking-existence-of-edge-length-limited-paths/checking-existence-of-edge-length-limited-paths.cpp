@@ -1,5 +1,7 @@
 class disjointSet{
 public:
+    //O(nlogn) Time Complexity
+    //O(n) space complexity
     vector<int> parent,rank;
     disjointSet(int n) {
         parent.resize(n);

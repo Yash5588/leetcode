@@ -18,7 +18,6 @@ public:
         for(auto &child : adj[node]) {
             cnt += dfs_count(child);
         }
-        cout << cnt + 1 << endl;
         return res[node] = cnt + 1;
     }
 

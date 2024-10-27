@@ -23,14 +23,18 @@ public:
 
     vector<int> findSubtreeSizes(vector<int>& parent, string s) {
         int n = parent.size();
+        //create an adjacency list
         for(int i = 0;i < n;i++) {
             adj[parent[i]].push_back(i);
         }
+        //modify the edges based on question
         changeParents(parent,0,s);
+        //clear and again create an adjacency list
         adj.clear();
         for(int i = 0;i < n;i++) {
             adj[parent[i]].push_back(i);
         }
+        //store the count of each subtree in their parent index
         res.resize(n,0);
         res[0] = dfs_count(0);
         return res;

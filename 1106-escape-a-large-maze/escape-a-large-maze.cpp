@@ -3,7 +3,7 @@ public:
     set<vector<int>> block;
     vector<pair<int,int>> adj = {{-1,0}, {0,-1}, {0,1}, {1,0}};
     bool solve(int blocks_size, vector<int> &source, vector<int> &target) {
-        int area = (blocks_size * blocks_size) - 1;
+        int area = (blocks_size * blocks_size)/2;
         set<pair<int,int>> visited;
         queue<pair<int,int>> que;
         que.push({source[0],source[1]});

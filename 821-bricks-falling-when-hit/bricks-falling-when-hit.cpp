@@ -48,17 +48,16 @@ public:
             grid[hit[0]][hit[1]]--;
         }
         
-        // Step 2: Connect remaining grid
-        auto index = [&](int x, int y) { return x * n + y; };
+        auto index = [&](int x, int y) {
+            return x * n + y;
+        };
         
-        // Connect top row bricks to the roof
         for (int j = 0; j < n; j++) {
             if (grid[0][j] == 1) {
                 ds.unionBySize(index(0, j), roof);
             }
         }
         
-        // Connect other bricks
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                 if (grid[i][j] == 1) {
@@ -72,7 +71,7 @@ public:
             }
         }
         
-        // Step 3: Process hits in reverse
+        // Process hits in reverse
         vector<int> res(hits.size());
         for (int i = hits.size() - 1; i >= 0; i--) {
             int x = hits[i][0], y = hits[i][1];
@@ -97,6 +96,7 @@ public:
             
             // Calculate bricks that fell
             int newRoofSize = ds.getSize(roof);
+            //to prevent addition of same component size again we take max with 0
             res[i] = max(0, newRoofSize - prevRoofSize - 1);  // Subtract 1 to exclude the brick itself
         }
         

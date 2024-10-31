@@ -1,7 +1,7 @@
 class Solution {
 public:
     int mod = 1e9+7;
-    long long dp[200][200][200];
+    long long dp[51][51][101];
     long long solve(int n, int pos, int m, int k, int prev) {
         if(pos >= n) {
             if(k == 0) return 1;

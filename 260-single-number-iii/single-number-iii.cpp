@@ -6,7 +6,7 @@ public:
             xorV ^= x;
         }
         int pos = 0;
-        for(int i = 0;i < 32;i++) {
+        for(int i = 31;i >= 0;i--) {
             if(xorV & (1<<i)) {
                 pos = i;
                 break;

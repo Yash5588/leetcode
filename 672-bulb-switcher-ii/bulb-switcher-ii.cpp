@@ -1,13 +1,13 @@
 class Solution {
 public:
     map<pair<string,int>,bool> dp;
-    void solve(int n, int passes, string &original, unordered_set<string> &se) {
+    void solve(int n, int passes, string str, unordered_set<string> &se) {
         if(passes == 0) {
-            se.insert(original);
+            se.insert(str);
             return;
         }
 
-        string str = original;
+        string original = str;
         //button 1
         for(int i = 0;i < n;i++) {
             if(str[i] == '0') str[i] = '1';
@@ -31,7 +31,7 @@ public:
         str = original;
 
         //button 3
-        for(int i = 1;i < n;i += 2) {
+        for(int i = 1;i < n;i++) {
             if(str[i] == '0') str[i] = '1';
             else str[i] = '0';
         }

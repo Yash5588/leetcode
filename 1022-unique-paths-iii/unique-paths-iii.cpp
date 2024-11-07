@@ -7,6 +7,7 @@ public:
         if(row < 0 || row >= m || col < 0 || col >= n) return 0;
         if(mask & (1 << (row*n + col))) return 0;
         mask |= (1 << (row*n + col));
+        //add extra case that all empty cells are explored or not
         if(grid[row][col] == 2 && mask == final_mask) return 1;
         if(grid[row][col] == -1) return 0;
         int cnt = 0;
@@ -24,6 +25,7 @@ public:
         int n = grid[0].size();
         int final_mask = 0;
         pair<int,int> src = {-1,-1};
+        //get destination mask to cover all paths
         for(int i = 0;i < m;i++) {
             for(int j = 0;j < n;j++) {
                 if(grid[i][j] == 1) src = {i,j};

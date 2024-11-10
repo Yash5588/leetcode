@@ -2,25 +2,18 @@ class Solution {
 public:
     int mod = 1e9+7;
 
-    int power(long long x, unsigned int y, int p) 
-    { 
-        int res = 1;     // Initialize result 
-    
-        // x = x % p; // Update x if it is more than or 
-                    // equal to p
-    
-        while (y > 0) 
-        { 
-            // If y is odd, multiply x with result 
-            if (y & 1) 
-                res = (res*x) % p; 
-    
-            // y must be even now 
-            y = y>>1; // y = y/2 
-            x = (x*x) % p; 
-        } 
-        return res; 
-    } 
+    long long power(long long base, long long expo) {
+        long long res = 1;
+        while(expo > 0) {
+            if(expo & 1) {
+                res = (res * base) % mod;
+            }
+            expo = expo >> 1; // expo/2
+            base = (base * base) % mod;
+        }
+        return res;
+    }
+
     bool isMerged(vector<int> &int1, vector<int> &int2) {
         //min point of interval2 in interval 1
         if(int1[0] <= int2[0] && int2[0] <= int1[1]) return true;
@@ -32,6 +25,7 @@ public:
         if(int2[0] <= int1[1] && int1[1] <= int2[1]) return true;
         return false;
     }
+
     int countWays(vector<vector<int>>& ranges) {
         vector<vector<int>> res;
         int n = ranges.size();
@@ -47,6 +41,6 @@ public:
             res.push_back(ranges[i]);
             i = j;
         }
-        return power(2,res.size(),mod);
+        return power(2,res.size());
     }
 };

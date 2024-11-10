@@ -6,10 +6,8 @@ public:
     { 
         int res = 1;     // Initialize result 
     
-        x = x % p; // Update x if it is more than or 
+        // x = x % p; // Update x if it is more than or 
                     // equal to p
-    
-        // if (x == 0) return 0; // In case x is divisible by p;
     
         while (y > 0) 
         { 

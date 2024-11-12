@@ -1,12 +1,5 @@
 class Solution {
 public:
-    bool isPossible(int diff, int ele, multiset<int> &se) {
-        int greater = ele + diff;
-        int lesser = ele - diff;
-        if(se.find(greater) != se.end()) return true;
-        if(se.find(lesser) != se.end()) return true;
-        return false;
-    }
     bool containsNearbyAlmostDuplicate(vector<int>& nums, int indexDiff, int valueDiff) {
         int n = nums.size();
         //window size is indexDiff

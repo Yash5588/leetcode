@@ -5,6 +5,7 @@ public:
         sort(nums.begin(),nums.end());
         int first = 0,last = 0;
         int ma = 0;
+        //window size of 2
         while(first <= last) {
             while(last < n && nums[last]-nums[first] == 0) {
                 last++;
@@ -13,7 +14,6 @@ public:
                 last++;
                 ma = max(ma, last-first);
             }
-            // ma = max(ma, last-first);
             first++;
         }
         return ma;

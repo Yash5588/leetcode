@@ -19,7 +19,6 @@ public:
             return new TreeNode(inorder[start]);
         }
         if(start > end) return nullptr;
-        if(pre_index >= n) return nullptr;
         int ind = find(inorder.begin(),inorder.end(),preorder[pre_index]) - inorder.begin();
         TreeNode* root = nullptr;
         if(ind < n) {

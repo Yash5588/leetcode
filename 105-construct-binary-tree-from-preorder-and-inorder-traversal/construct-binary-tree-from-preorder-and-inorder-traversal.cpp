@@ -12,21 +12,17 @@
 class Solution {
 public:
     int pre_index = 0;
+    // unordered_map<int,int>
     TreeNode* createTree(vector<int> &preorder, vector<int> &inorder, int start, int end) {
         int n = inorder.size();
-        // if(start == end) {
-        //     pre_index++;
-        //     return new TreeNode(inorder[start]);
-        // }
         if(start > end) return nullptr;
         int ind = find(inorder.begin(),inorder.end(),preorder[pre_index]) - inorder.begin();
         TreeNode* root = nullptr;
-        if(ind < n) {
             pre_index++;
             root = new TreeNode(inorder[ind]);
             root->left = createTree(preorder,inorder,start,ind-1);
             root->right = createTree(preorder,inorder,ind+1,end);
-        }
+        
         return root;
     }
     TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {

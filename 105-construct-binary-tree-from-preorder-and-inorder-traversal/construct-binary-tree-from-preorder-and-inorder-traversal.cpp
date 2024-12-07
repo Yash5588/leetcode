@@ -14,10 +14,10 @@ public:
     int pre_index = 0;
     TreeNode* createTree(vector<int> &preorder, vector<int> &inorder, int start, int end) {
         int n = inorder.size();
-        if(start == end) {
-            pre_index++;
-            return new TreeNode(inorder[start]);
-        }
+        // if(start == end) {
+        //     pre_index++;
+        //     return new TreeNode(inorder[start]);
+        // }
         if(start > end) return nullptr;
         int ind = find(inorder.begin(),inorder.end(),preorder[pre_index]) - inorder.begin();
         TreeNode* root = nullptr;

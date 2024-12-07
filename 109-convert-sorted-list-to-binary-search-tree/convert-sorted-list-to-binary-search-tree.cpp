@@ -21,24 +21,23 @@
  */
 class Solution {
 public:
-    TreeNode* createTree(vector<int> &inorder,int start,int end) {
-        if(start > end) return nullptr;
-        TreeNode* root = nullptr;
-        int ind = (start + end)/2;
-        int ele = inorder[ind];
-        root = new TreeNode(ele);
-        root->left = createTree(inorder, start, ind-1);
-        root->right = createTree(inorder, ind+1, end);
-        return root;
-    }
     TreeNode* sortedListToBST(ListNode* head) {
-        vector<int> inorder;
-        ListNode* temp = head;
-        while(temp != nullptr) {
-            inorder.push_back(temp->val);
-            temp = temp->next;
+        ListNode* slow = head;
+        ListNode* fast = head;
+        ListNode* prev = nullptr;
+        if(!head) return nullptr;
+        TreeNode* root = nullptr;
+        while(fast != nullptr && fast->next != nullptr) {
+            prev = slow;
+            slow = slow->next;
+            fast = fast->next->next;
         }
-        int n = inorder.size();
-        return createTree(inorder,0,n-1);
+        root = new TreeNode(slow->val);
+        if(prev != nullptr) {
+            prev->next = nullptr;
+            root->left = sortedListToBST(head);
+        }
+        root->right = sortedListToBST(slow->next);
+        return root;
     }
 };

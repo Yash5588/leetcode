@@ -12,21 +12,24 @@
 class Solution {
 public:
     int pre_index = 0;
-    // unordered_map<int,int>
-    TreeNode* createTree(vector<int> &preorder, vector<int> &inorder, int start, int end) {
-        int n = inorder.size();
+    unordered_map<int,int> inorder_hash;
+    TreeNode* createTree(vector<int> &preorder, int start, int end) {
+        int n = preorder.size();
         if(start > end) return nullptr;
-        int ind = find(inorder.begin(),inorder.end(),preorder[pre_index]) - inorder.begin();
+        int ele = preorder[pre_index];
+        int ind = inorder_hash[ele];
         TreeNode* root = nullptr;
-            pre_index++;
-            root = new TreeNode(inorder[ind]);
-            root->left = createTree(preorder,inorder,start,ind-1);
-            root->right = createTree(preorder,inorder,ind+1,end);
-        
+        pre_index++;
+        root = new TreeNode(ele);
+        root->left = createTree(preorder,start,ind-1);
+        root->right = createTree(preorder,ind+1,end);
         return root;
     }
     TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
         int n = preorder.size();
-        return createTree(preorder,inorder,0,n-1);
+        for(int i = 0;i < n;i++) {
+            inorder_hash[inorder[i]] = i;
+        }
+        return createTree(preorder,0,n-1);
     }
 };

@@ -6,6 +6,8 @@ public:
         for(int i = 0;i < n;i++) que.push(nums[i]);
         int j = 1;
         int k = 0;
+        //fill in odd indices from highest to lowest
+        //then remaining fill in even indices
         while(!que.empty()) {
             if(j < n) {
                 nums[j] = que.top();

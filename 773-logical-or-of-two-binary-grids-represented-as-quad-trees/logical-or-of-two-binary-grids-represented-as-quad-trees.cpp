@@ -65,11 +65,17 @@ public:
         Node* topR = intersect(quadTree1->topRight,quadTree2->topRight);
         Node* bottomL = intersect(quadTree1->bottomLeft,quadTree2->bottomLeft);
         Node* bottomR = intersect(quadTree1->bottomRight,quadTree2->bottomRight);
-        if(topL->val == 1  && topL->isLeaf == 1 && topR->val == 1 && topR->isLeaf == 1 && bottomL->val == 1 && bottomL->isLeaf == 1 && bottomR->val == 1 && bottomR->isLeaf == 1) {
-            root->isLeaf = 1;
-            root->val = 1;
-            return root;
+        //for node to be leaf it's children should be leaf and all values of children should be equal
+        if(topL->isLeaf == 1 &&  topR->isLeaf == 1 &&  bottomL->isLeaf == 1  && bottomR->isLeaf == 1) {
+            int val = topL->val;
+            if(topR->val == val && bottomL->val == val && bottomR->val == val) {
+                root->isLeaf = 1;
+                root->val = val;
+                return root;
+            }
+            //if it is leaf don't add children
         }
+        //not a leaf add children
         root->topLeft = topL;
         root->topRight = topR;
         root->bottomLeft = bottomL;

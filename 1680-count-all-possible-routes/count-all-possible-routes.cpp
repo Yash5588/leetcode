@@ -1,7 +1,7 @@
 class Solution {
 public:
     int mod = 1e9+7;
-    long long dp[202][202];
+    long long dp[101][201];
     long long solve(vector<int> &locations, int finish, int fuel, int prev) {
         if(fuel <= 0) return 0;
         if(dp[prev][fuel] != -1) return dp[prev][fuel];

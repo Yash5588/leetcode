@@ -9,7 +9,8 @@ public:
                 operations += (nums[i] % mid == 0) ? (nums[i]/mid)-1 : nums[i]/mid; 
             }
         }
-        //if those operations to make it as min is less then 
+        //if those operations to make it as min is less then maxOperations
+        //then we can form it as min otherwise it is not possible
         return operations <= maxOperations;
     }
     int minimumSize(vector<int>& nums, int maxOperations) {

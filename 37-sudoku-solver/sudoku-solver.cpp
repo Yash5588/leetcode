@@ -1,7 +1,7 @@
 class Solution {
 public:
     vector<unordered_set<char>> rows, cols, grids;
-    bool solved = false; // Flag to stop further recursion once solved
+    bool solved = false; 
     
     bool isSafe(vector<vector<char>>& board, char ch, int i, int j) {
         if (rows[i].find(ch) != rows[i].end()) return false;
@@ -12,23 +12,20 @@ public:
         return true;
     }
     
-    void solve(vector<vector<char>>& board, int i, int j) {
+    bool solve(vector<vector<char>>& board, int i, int j) {
 
         //all rows have been completed
         if (i >= 9) {
-            solved = true;
-            return;
+            return true;
         }
 
         //go to next row if current row completed
         if (j >= 9) {
-            solve(board, i + 1, 0);
-            return;
+            return solve(board, i + 1, 0);
         }
         //skip the particular cell and go to next cell
         if (board[i][j] != '.') { 
-            solve(board, i, j + 1);
-            return;
+            return solve(board, i, j + 1);
         }
         
         for (char ch = '1'; ch <= '9'; ch++) {
@@ -40,8 +37,7 @@ public:
                 cols[j].insert(ch);
                 grids[grid_idx].insert(ch);
                 
-                solve(board, i, j + 1);
-                if (solved) return; 
+                if(solve(board, i, j + 1)) return true;
                 
                 board[i][j] = '.';
                 rows[i].erase(ch);
@@ -49,6 +45,7 @@ public:
                 grids[grid_idx].erase(ch);
             }
         }
+        return false;
     }
     
     void solveSudoku(vector<vector<char>>& board) {

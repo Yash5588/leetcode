@@ -66,7 +66,6 @@ public:
             }
         }
         
-        // Start solving
         solve(board, 0, 0);
     }
 };

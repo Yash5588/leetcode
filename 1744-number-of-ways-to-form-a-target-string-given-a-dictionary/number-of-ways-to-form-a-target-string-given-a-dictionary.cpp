@@ -20,6 +20,7 @@ public:
         int n = words.size();
         int m = words[0].size();
         freq_index.resize(m);
+        //get the freq of each character at the particular index of each word.
         for(auto &str : words) {
             for(int i = 0;i < m;i++) {
                 freq_index[i][str[i]]++;

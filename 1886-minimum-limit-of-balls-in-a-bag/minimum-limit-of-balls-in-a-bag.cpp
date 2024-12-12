@@ -4,8 +4,12 @@ public:
         int operations = 0;
         int n = nums.size();
         for(int i = 0;i < n;i++) {
-            operations += (nums[i] % mid == 0) ? (nums[i]/mid)-1 : nums[i]/mid; 
+            //this is the bag division if we want to attain the min result as mid
+            if(nums[i] > mid) {
+                operations += (nums[i] % mid == 0) ? (nums[i]/mid)-1 : nums[i]/mid; 
+            }
         }
+        //if those operations to make it as min is less then 
         return operations <= maxOperations;
     }
     int minimumSize(vector<int>& nums, int maxOperations) {

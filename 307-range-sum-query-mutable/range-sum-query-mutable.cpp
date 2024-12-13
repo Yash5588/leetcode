@@ -25,18 +25,18 @@ public:
         arr = nums;
         bit.resize(n+1,0);
         for(int i = 0;i < n;i++) {
-            updateQuery(i+1,nums[i]);
+            updateQuery(i+1,nums[i]); //update 1 based indexing
         }
     }
     
     void update(int index, int val) {
         updateQuery(index+1,-arr[index]); // remove element
         updateQuery(index+1,val); // add new element
-        arr[index] = val;
+        arr[index] = val; //update our array as well
     }
     
     int sumRange(int left, int right) {
-        //sum = query(r) - query(l-1) l,r 1 - based indexing
+        //sum = query(r) - query(l-1) l,r => 1 - based indexing
         int leftSum = query(left);
         int rightSum = query(right+1);
         return rightSum - leftSum;

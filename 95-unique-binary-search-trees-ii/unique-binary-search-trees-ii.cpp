@@ -21,6 +21,7 @@ public:
             vector<TreeNode*> leftTrees = generateTree(start, i-1);
             vector<TreeNode*> rightTrees = generateTree(i+1, end);
 
+            //for all possible left - right subtree combinations make trees 
             for(auto left : leftTrees) {
                 for(auto right : rightTrees) {
                     TreeNode* root = new TreeNode(i);

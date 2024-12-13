@@ -22,16 +22,14 @@ public:
     vector<int> countSmaller(vector<int>& nums) {
         int n = nums.size();
         size = n;
-        bit.resize(n+1);
+        bit.resize(n+1,0);
         vector<pair<int,int>> ind_pairs;
         for(int i = 0;i < n;i++) {
             ind_pairs.push_back({nums[i],i});
         }
+        
         sort(ind_pairs.begin(),ind_pairs.end());
-        //populate bit array
-        for(int i = 0;i < n;i++) {
-            update(i+1, 0);
-        }
+
         vector<int> res(n);
         for(auto &x : ind_pairs) {
             int idx = x.second;

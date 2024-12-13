@@ -11,16 +11,21 @@ public:
             return;
         }
         if(pos >= n) return;
+        //leading 0 case
         if(s[pos] == '0') {
             solve(s,level+1,pos+1,ip + "0.");
         }
         else {
+            //single digit case
             solve(s,level+1,pos+1,ip + s[pos] + '.');
+            //two digit case
             if(pos+1 < n) {
                 solve(s,level+1,pos+2,ip + s.substr(pos,2) + '.');
             }
+            //3digits should be present 
             if(pos+2 < n) {
                 string t = s.substr(pos,3);
+                //it should be <= 255
                 if(stoi(t) <= 255) {
                     solve(s,level+1,pos+3,ip + s.substr(pos,3) + '.');
                 }

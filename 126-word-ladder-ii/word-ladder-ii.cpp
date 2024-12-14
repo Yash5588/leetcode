@@ -7,8 +7,6 @@ public:
             //we will get res in reverse so reverse it
             reverse(temp.begin(),temp.end());
             res.push_back(temp);
-            //modifying original sequence so re reverse it
-            // reverse(temp.begin(),temp.end());
             return;
         }
         unordered_set<string> prevLevel = levelWords[currentLevel-1];

@@ -2,15 +2,13 @@ class Solution {
 public:
     unordered_map<string,vector<pair<string,double>>> adj;
     unordered_map<string,double> convert1;
-    unordered_map<string,bool> visited;
-    void dfs1(string node, double cost) {
-        visited[node] = true;
+    void dfs1(string node, double cost, string parent) {
         for(auto &child : adj[node]) {
             string str = child.first;
             double wt = child.second;
-            if(!visited[str]) {
+            if(str != parent) {
                 convert1[str] = max(convert1[str], cost * wt);
-                dfs1(str, cost * wt);
+                dfs1(str, cost * wt, node);
             }
         }
     }
@@ -32,13 +30,12 @@ public:
             adj[pairs1[i][0]].push_back({pairs1[i][1], rates1[i]});
             adj[pairs1[i][1]].push_back({pairs1[i][0], 1/rates1[i]});
         }
-        dfs1(initialCurrency, 1);
+        dfs1(initialCurrency, 1, initialCurrency);
         adj.clear();
         for(int i = 0;i < n2;i++) {
             adj[pairs2[i][0]].push_back({pairs2[i][1], rates2[i]});
             adj[pairs2[i][1]].push_back({pairs2[i][0], 1/rates2[i]});
         }
-        visited.clear();
         double ma = 0.0;
         for(auto &[start,cst] : convert1) {
             double res = 1;

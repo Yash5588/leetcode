@@ -33,6 +33,7 @@ public:
                     firstMinDist[child] = totalTime + time;
                     que.push({firstMinDist[child], child});
                 }
+                //it should be less as well the second min dist should be STRICTLY LESS THAN 1st min dist
                 else if(totalTime + time < secondMinDist[child] && totalTime + time != firstMinDist[child]) { 
                     //second min dist in second arrival 
                     secondMinDist[child] = totalTime + time;

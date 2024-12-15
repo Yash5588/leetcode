@@ -73,11 +73,6 @@ public:
 
         unordered_map<int,vector<int>> finalOrder;
 
-        for(auto &x : itemOrder) cout << x << ' ';
-        cout << endl;
-        for(auto &x : groupOrder) cout << x << ' ';
-        cout << endl;
-
         //push items in item topo order inside group topo order
         for(auto &item : itemOrder) {
             int grp = group[item];

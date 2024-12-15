@@ -36,7 +36,6 @@ public:
     vector<int> sortItems(int n, int m, vector<int>& group, vector<vector<int>>& beforeItems) {
         unordered_map<int,vector<int>> item_graph;
         unordered_map<int,vector<int>> group_graph;
-        unordered_map<int,unordered_set<int>> group_temp;
 
         //modify -1 to m group
         int size = group.size();
@@ -56,14 +55,9 @@ public:
                 //then before element belonging group should appear before current element belonging group
                 //to prevent multiple edges bet two nodes
                 if(group[x] != group[i]) {
-                    group_temp[group[x]].insert(group[i]);
+                    group_graph[group[x]].push_back(group[i]);
                 }
             }
-        }
-
-        //reform graph into vectors
-        for(auto &[node,list] : group_temp) {
-            group_graph[node] = vector<int> (list.begin(),list.end());
         }
 
         vector<int> itemOrder = topoSortOrder(n, item_graph);

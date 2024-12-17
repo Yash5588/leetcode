@@ -13,7 +13,9 @@ public:
                     res[j] = people[i];
                     break;
                 }
+                //before elements which are equal count them which were inserted previously
                 if(people[i][0] == res[j][0]) count--;
+                //vacant places means only greater elements can be fit there
                 if(res[j][0] == -1) count--;
             }
         }

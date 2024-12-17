@@ -9,6 +9,7 @@ public:
         for(int i = 0;i < n;i++) {
             count = people[i][1];
             for(int j = 0;j < n;j++) {
+                //satisfied count of greater and equal elements also we have vacant place to fit
                 if(count == 0 && res[j][0] == -1) {
                     res[j] = people[i];
                     break;

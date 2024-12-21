@@ -1,7 +1,5 @@
 class Solution {
 public:
-    //left = +1
-    //right = -1
     //to store unique permutations
     unordered_set<string> res;
     int ma = 0;

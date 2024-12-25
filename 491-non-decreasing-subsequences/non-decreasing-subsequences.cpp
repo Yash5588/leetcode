@@ -1,13 +1,11 @@
 class Solution {
 public:
-    vector<vector<int>> res;
-    set<vector<int>> se;
+    set<vector<int>> res;
     void backtrack(vector<int> &nums, int prevInd, int mask, vector<int> &temp) {
         int n = nums.size();
         if(temp.size() >= 2) {
-            if(se.find(temp) == se.end()) {
-                res.push_back(temp);
-                se.insert(temp);
+            if(res.find(temp) == res.end()) {
+                res.insert(temp);
             }
         }
         for(int i = 0;i < n;i++) {
@@ -22,6 +20,6 @@ public:
     vector<vector<int>> findSubsequences(vector<int>& nums) {
         vector<int> temp;
         backtrack(nums, -101, 0, temp);
-        return res;
+        return vector<vector<int>> (res.begin(),res.end());
     }
 };

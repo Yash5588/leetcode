@@ -1,5 +1,6 @@
 class Solution {
 public:
+    //perform all possible operations for that pair 
     vector<double> getOperations(double &a, double &b) {
         vector<double> operations;
         operations.push_back(a+b);
@@ -19,18 +20,24 @@ public:
             if(abs(24.0 - cards[0]) < FLT_EPSILON) return true;
             return false;
         }
-        //perform operations
+        //perform operations on each combination
         for(int i = 0;i < n;i++) {
             for(int j = i+1;j < n;j++) {
                 vector<double> operations = getOperations(cards[i],cards[j]);
                 vector<double> newCards;
+                //perform all the opertions for those pair
                 for(auto &operation : operations) {
+                    //build new array [a,b,c,d] a and b are picked
+                    //then [a+b,c,d], [a-b,c,d] like this
                     newCards.push_back(operation);
                     for(int k = 0;k < n;k++) {
+                        //get the remaining elements 
                         if(k == i || k == j) continue;
                         newCards.push_back(cards[k]);
                     }
+                    //after this size is decreased by 1 at each call
                     if(solve(newCards)) return true;
+                    //clear array for new operation
                     newCards.clear();
                 }
             }
@@ -38,6 +45,7 @@ public:
         return false;
     }
     bool judgePoint24(vector<int>& cards) {
+        //convert to double to avoid future calculations in double
         vector<double> dou(cards.begin(),cards.end());
         return solve(dou);
     }

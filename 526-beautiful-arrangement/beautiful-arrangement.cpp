@@ -16,6 +16,5 @@ public:
     int countArrangement(int n) {
         memset(dp,-1,sizeof(dp));
         return solve(n, 0, 1);
-        
     }
 };

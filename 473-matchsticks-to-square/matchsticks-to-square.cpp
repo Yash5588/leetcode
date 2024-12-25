@@ -4,8 +4,7 @@ public:
         int n = matchsticks.size();
         if(maxLen < side1 || maxLen < side2 || maxLen < side3 || maxLen < side4) return false;
         if(pos >= n) {
-            if(side1 == maxLen) return true;
-            return false;
+            return true;
         }
         if(solve(matchsticks, pos+1, side1 + matchsticks[pos], side2, side3, side4, maxLen)) return true;
         if(solve(matchsticks, pos+1, side1 , side2 + matchsticks[pos], side3, side4, maxLen)) return true;

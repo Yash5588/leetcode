@@ -21,7 +21,7 @@ public:
         int n = nums.size();
         int sum = accumulate(nums.begin(),nums.end(),0);
         if(sum % k != 0) return false;
-        vector<bool> taken(n, false);
+        sort(nums.begin(),nums.end(),greater<int>());
         return solve(nums, k, 0, sum/k, 0, 0);
     }
 };

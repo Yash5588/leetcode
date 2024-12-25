@@ -6,6 +6,8 @@ public:
             return true;
         }
         if(sum == target) {
+            //one subset sum is found find rest subsets by keeping mask intact
+            //from the start of the array
             return solve(nums, k-1, 0, target, 0, mask);
         }
         if(sum > target) return false;

@@ -13,15 +13,14 @@ public:
                     if(s[j] >= 'a' && s[j] <= 'z') {
                         char temp = s[j];
                         s[j] = (char)toupper(s[j]);
-                        res.insert(s);
                     }
                     else {
                         char temp = s[j];
                         s[j] = (char)tolower(s[j]);
-                        res.insert(s);
                     }
                 }
             }
+            res.insert(s);
             s = t;
         }
         return vector<string> (res.begin(),res.end());

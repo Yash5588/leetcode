@@ -2,8 +2,8 @@ class Solution {
 public:
     unordered_set<string> res;
     void solve(string &s, int pos) {
-        int n = s.length();
         res.insert(s);
+        int n = s.length();
         if(pos >= n) return;
         if(s[pos] >= '0' && s[pos] <= '9') {
             solve(s, pos+1);

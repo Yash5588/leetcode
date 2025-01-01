@@ -3,7 +3,6 @@ public:
     string sumString(const string &first, const string &second) {
         string res;
         int carry = 0, i = first.size() - 1, j = second.size() - 1;
-
         while (i >= 0 || j >= 0 || carry > 0) {
             int a = (i >= 0) ? first[i--] - '0' : 0;
             int b = (j >= 0) ? second[j--] - '0' : 0;
@@ -11,7 +10,6 @@ public:
             res += (sum % 10) + '0';
             carry = sum / 10;
         }
-
         reverse(res.begin(), res.end());
         return res;
     }

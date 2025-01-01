@@ -1,20 +1,20 @@
 class Solution {
 public:
-    string sumString(string &first, string &second) {
-        int i = first.length()-1;
-        int j = second.length()-1;
-        int carry = 0;
-        string res;
-        while(i >= 0 || j >= 0 || carry > 0) {
-            int a = (i >= 0) ? first[i--] - '0' : 0;
-            int b = (j >= 0) ? second[j--] - '0' : 0;
-            int sum = a + b + carry;
-            res += (sum % 10) + '0';
-            carry = sum/10;
-        }
-        reverse(res.begin(),res.end());
-        return res;
-    }
+    // string sumString(string &first, string &second) {
+    //     int i = first.length()-1;
+    //     int j = second.length()-1;
+    //     int carry = 0;
+    //     string res;
+    //     while(i >= 0 || j >= 0 || carry > 0) {
+    //         int a = (i >= 0) ? first[i--] - '0' : 0;
+    //         int b = (j >= 0) ? second[j--] - '0' : 0;
+    //         int sum = a + b + carry;
+    //         res += (sum % 10) + '0';
+    //         carry = sum/10;
+    //     }
+    //     reverse(res.begin(),res.end());
+    //     return res;
+    // }
 
     bool inIntegerRange(string &str) {
         if(str.length() > 10) return false;
@@ -25,7 +25,9 @@ public:
     bool backtrack(string &num, string &first, string &second, int pos, vector<int> &temp) {
         int n = num.length();
         string sum;
-        string add = sumString(first, second);
+        long long f = stoll(first);
+        long long s = stoll(second);
+        string add = to_string(f + s);
         for(int i = pos+1;i < n;i++) {
             if(i > pos+1 && num[pos+1] == '0') return false;
             sum += num[i];

@@ -25,11 +25,11 @@ public:
     bool backtrack(string &num, string &first, string &second, int pos, vector<int> &temp) {
         int n = num.length();
         string sum;
+        string add = sumString(first, second);
         for(int i = pos+1;i < n;i++) {
             if(i > pos+1 && num[pos+1] == '0') return false;
             sum += num[i];
             if(!inIntegerRange(sum)) return false;
-            string add = sumString(first, second);
             if(sum == add) {
                 temp.push_back(stoll(sum));
                 if(i == n-1) return true;

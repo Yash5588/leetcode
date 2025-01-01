@@ -1,45 +1,61 @@
+class SegmentTree{
+    vector<int> segTree;
+    public:
+        SegmentTree(int n) {
+            segTree.resize(4*n,0);
+        }
+
+        void buildTree(int i, int left, int right, vector<int> &nums) {
+            if(left == right) {
+                segTree[i] = nums[left];
+                return;
+            }
+
+            int mid = (left + right)/2;
+            buildTree(2*i+1, left, mid, nums);
+            buildTree(2*i+2, mid+1, right, nums);
+            segTree[i] = segTree[2*i+1] + segTree[2*i+2];
+        }
+
+        void update(int idx, int val, int i, int left, int right) {
+            if(left == right) {
+                segTree[i] = val;
+                return;
+            }
+
+            int mid = (left + right)/2;
+            if(idx <= mid) {
+                update(idx, val, 2*i+1, left, mid);
+            }
+            else {
+                update(idx, val, 2*i+2, mid+1, right);
+            }
+            segTree[i] = segTree[2*i+1] + segTree[2*i+2];
+        }
+
+        int rangeSumQuery(int start, int end, int i, int left, int right) {
+            if(end < left || start > right) return 0;
+            if(start <= left && right <= end) return segTree[i];
+            int mid = (left + right)/2;
+            return rangeSumQuery(start, end, 2*i+1, left, mid) + rangeSumQuery(start, end, 2*i+2, mid+1, right);
+        }
+};
 class NumArray {
 public:
-    vector<int> bit;
-    vector<int> arr;
-    int size;
-    int query(int id) {
-        int ans = 0;
-        while(id > 0) {
-            ans += bit[id];
-            id -= (id & -id); //removing last set bit in each iteration
-        }
-        return ans;
-    }
-
-    void updateQuery(int id, int val) {
-        while(id <= size) {
-            bit[id] += val;
-            id += (id & -id);
-        }
-    }
-
-    NumArray(vector<int>& nums) {
+    SegmentTree seg;
+    int N;
+    NumArray(vector<int>& nums)  : seg(nums.size()){
         int n = nums.size();
-        size = n;
-        arr = nums;
-        bit.resize(n+1,0);
-        for(int i = 0;i < n;i++) {
-            updateQuery(i+1,nums[i]); //update 1 based indexing
-        }
+        N = n;
+        seg.buildTree(0, 0, n-1, nums);
     }
     
     void update(int index, int val) {
-        updateQuery(index+1,-arr[index]); // remove element
-        updateQuery(index+1,val); // add new element
-        arr[index] = val; //update our array as well
+        seg.update(index, val, 0, 0, N-1);
     }
     
     int sumRange(int left, int right) {
-        //sum = query(r) - query(l-1) l,r => 1 - based indexing
-        int leftSum = query(left);
-        int rightSum = query(right+1);
-        return rightSum - leftSum;
+        return seg.rangeSumQuery(left, right, 0, 0, N-1);
     }
 };
 

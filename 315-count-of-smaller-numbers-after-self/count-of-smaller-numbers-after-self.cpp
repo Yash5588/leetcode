@@ -54,7 +54,7 @@ public:
         sort(pairs.begin(),pairs.end());
         vector<int> bit(n,0);
         vector<int> res(n);
-        seg.buildTree(bit, 0, 0, n-1); //building segment tree for bit array
+        // seg.buildTree(bit, 0, 0, n-1); //building segment tree for bit array
         for(auto &x : pairs) {
             int ind = x.second;
             int sum = seg.rangeSumQuery(ind, n-1, 0, 0, n-1);

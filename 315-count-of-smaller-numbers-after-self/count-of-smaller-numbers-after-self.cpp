@@ -1,41 +1,66 @@
+class SegmentTree{
+    int size;
+    vector<int> segTree;
+    public:
+        SegmentTree(int n) {
+            segTree.resize(4*n,0);
+            size = n;
+        }
+
+        void buildTree(vector<int> &nums, int i, int left, int right) {
+            if(left == right) {
+                segTree[i] = nums[left];
+                return;
+            }
+
+            int mid = left + (right - left)/2;
+            buildTree(nums, 2*i+1, left, mid);
+            buildTree(nums, 2*i+2, mid+1, right);
+            segTree[i] = segTree[2*i+1] + segTree[2*i+2];
+        }
+
+        void update(int ind, int val, int i, int left, int right) {
+            if(left == right) {
+                segTree[i] = val;
+                return;
+            }
+
+            int mid = left + (right - left)/2;
+            if(ind <= mid) {
+                update(ind, val, 2*i+1, left, mid);
+            }
+            else {
+                update(ind, val, 2*i+2, mid+1, right);
+            }
+            segTree[i] = segTree[2*i+1] + segTree[2*i+2];
+        }
+
+        int rangeSumQuery(int start, int end, int i, int left, int right) {
+            if(start <= left && right <= end) return segTree[i];
+            if(right < start || left > end) return 0;
+            int mid = left + (right - left)/2;
+            return rangeSumQuery(start, end, 2*i+1, left, mid) + rangeSumQuery(start, end, 2*i+2, mid+1, right);
+        }
+};
 class Solution {
 public:
-    vector<int> bit;
-    int size;
-
-    int query(int id) {
-        int sum = 0;
-        while(id > 0) {
-            sum += bit[id];
-            id -= (id & -id);
-        }
-        return sum;
-    }
-
-    void update(int id, int val) {
-        while(id <= size) {
-            bit[id] += val;
-            id += (id & -id);
-        }
-    }
-
     vector<int> countSmaller(vector<int>& nums) {
         int n = nums.size();
-        size = n;
-        bit.resize(n+1,0);
-        vector<pair<int,int>> ind_pairs;
+        SegmentTree seg(n);
+        vector<pair<int,int>> pairs;
         for(int i = 0;i < n;i++) {
-            ind_pairs.push_back({nums[i],i});
+            pairs.push_back({nums[i],i});
         }
-        
-        sort(ind_pairs.begin(),ind_pairs.end());
-
+        sort(pairs.begin(),pairs.end());
+        vector<int> bit(n,0);
         vector<int> res(n);
-        for(auto &x : ind_pairs) {
-            int idx = x.second;
-            //1 - based query(r) - query(l-1)
-            res[idx] = query(n) - query(idx);
-            update(idx+1, 1);
+        seg.buildTree(bit, 0, 0, n-1); //building segment tree for bit array
+        for(auto &x : pairs) {
+            int ind = x.second;
+            int sum = seg.rangeSumQuery(ind, n-1, 0, 0, n-1);
+            res[ind] = sum;
+            bit[ind] = 1;
+            seg.update(ind, 1, 0, 0, n-1);
         }
         return res;
     }

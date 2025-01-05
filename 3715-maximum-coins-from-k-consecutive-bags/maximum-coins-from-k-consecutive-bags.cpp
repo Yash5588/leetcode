@@ -16,7 +16,6 @@ public:
         if(i < n && size >= coins[i][0]) {
             res = cost + (long long)(size - coins[i][0] + 1) * coins[i][2];
         }
-        cout << res << endl;
         //moving window considering the start of the interval
         int first = 0,last = i;
         while(first <= last) {

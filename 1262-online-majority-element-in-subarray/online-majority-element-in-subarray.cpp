@@ -66,6 +66,7 @@ public:
     SegmentTree seg;
     MajorityChecker(vector<int>& arr) {
         int n = arr.size();
+        //store indices
         for(int i = 0;i < n;i++) {
             indices[arr[i]].push_back(i);
         }
@@ -74,6 +75,7 @@ public:
     }
     
     int query(int left, int right, int threshold) {
+        //this is majority but we need to compare with threshold
         int ele = seg.Query(left, right);
         int l = lower_bound(indices[ele].begin(), indices[ele].end(), left) - indices[ele].begin(); 
         int r = upper_bound(indices[ele].begin(), indices[ele].end(), right) - indices[ele].begin(); 

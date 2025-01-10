@@ -59,10 +59,11 @@ public:
         seg.buildTree(0, 0, n-1, peaks);
         for(auto &q : queries) {
             if(q[0] == 1) {
-                // for(int i = 0;i < n;i++) cout << peaks[i] << endl;
-                // cout << endl;
+                //it is a subarray not sub query
+                //so borders are not peaks so remove them if included
                 int val = seg.query(q[1], q[2] ,0 ,0 ,n-1);
                 val -= peaks[q[1]];
+                //check if both indices are same
                 if(q[1] != q[2]) val -= peaks[q[2]];
                 res.push_back(val);
             } 
@@ -71,6 +72,7 @@ public:
                 int ind  = q[1];
                 if(ind-1 >= 0 && ind+1 < n) {
                     if(nums[ind-1] < nums[ind] && nums[ind+1] < nums[ind]) {
+                        //if current ind is peak then we are sure that left and right are not the peaks
                         peaks[ind] = 1;
                         seg.update(0, 0, n-1, ind, 1);
                         peaks[ind-1] = 0;
@@ -79,6 +81,8 @@ public:
                         seg.update(0, 0, n-1, ind+1, 0);
                     }
                     else {
+                        //if current ind is not peak then
+                        //left and right may be peaks so check them
                         peaks[ind] = 0;
                         seg.update(0, 0, n-1, ind, 0);
                     }
@@ -108,9 +112,6 @@ public:
                         }
                     }
                 }
-                // cout << peaks[q[1]] << endl;
-                // for(int i = 0;i < n;i++) cout << peaks[i] << ' ';
-                // cout << endl;
             }
         }
         return res;

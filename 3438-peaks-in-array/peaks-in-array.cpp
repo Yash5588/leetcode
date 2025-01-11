@@ -1,47 +1,29 @@
-class SegmentTree{
+class FenwickTree{
     private:
-        vector<int> segTree;
-        int size;
+        vector<int> bit;
+        int N;
     public:
-        SegmentTree(int n) {
-            segTree.resize(4*n);
-            size = n;
+        FenwickTree(int n) {
+            bit.resize(n+1,0);
+            N = n;
         }
 
-        void buildTree(int i, int left, int right, vector<int> &nums) {
-            if(left == right) {
-                segTree[i] = nums[left];
-                return;
+        int query(int id) {
+            int ans = 0;
+            while(id > 0) {
+                ans += bit[id];
+                id -= (id & -id);
             }
-
-            int mid = left + (right - left)/2;
-            buildTree(2*i+1, left, mid, nums);
-            buildTree(2*i+2, mid+1, right, nums);
-            segTree[i] = segTree[2*i+1] + segTree[2*i+2];
+            return ans;
         }
 
-        void update(int i, int left, int right, int ind, int val) {
-            if(left == right) {
-                segTree[i] = val;
-                return;
+        void update(int id, int val) {
+            while(id <= N) {
+                bit[id] += val;
+                id += (id & -id);
             }
-
-            int mid = left + (right - left)/2;
-            if(ind <= mid) {
-                update(2*i+1, left, mid, ind, val);
-            }
-            else {
-                update(2*i+2, mid+1, right, ind, val);
-            }
-            segTree[i] = segTree[2*i+1] + segTree[2*i+2];
         }
 
-        int query(int start, int end, int i, int left, int right) {
-            if(end < left || right < start) return 0;
-            if(start <= left && right <= end) return segTree[i];
-            int mid = left + (right - left)/2;
-            return query(start, end, 2*i+1, left, mid) + query(start, end, 2*i+2, mid+1, right);
-        }
 };
 class Solution {
 public:
@@ -54,14 +36,20 @@ public:
                 peaks[i] = 1;
             }
         }
-        SegmentTree seg(n);
+        FenwickTree fen(n);
         vector<int> res;
-        seg.buildTree(0, 0, n-1, peaks);
+        //update in fenwick tree
+        for(int i = 0;i < n;i++) {
+            fen.update(i+1, peaks[i]);
+        }
         for(auto &q : queries) {
             if(q[0] == 1) {
                 //it is a subarray not sub query
                 //so borders are not peaks so remove them if included
-                int val = seg.query(q[1], q[2] ,0 ,0 ,n-1);
+                // int val = seg.query(q[1], q[2] ,0 ,0 ,n-1);
+                int start = q[1];
+                int end = q[2];
+                int val = fen.query(end+1) - fen.query(start);
                 val -= peaks[q[1]];
                 //check if both indices are same
                 if(q[1] != q[2]) val -= peaks[q[2]];
@@ -73,18 +61,27 @@ public:
                 if(ind-1 >= 0 && ind+1 < n) {
                     if(nums[ind-1] < nums[ind] && nums[ind+1] < nums[ind]) {
                         //if current ind is peak then we are sure that left and right are not the peaks
+                        //remove previous value and update new value
+                        // seg.update(0, 0, n-1, ind, 1);
+                        fen.update(ind+1, -peaks[ind]);
                         peaks[ind] = 1;
-                        seg.update(0, 0, n-1, ind, 1);
+                        fen.update(ind+1, peaks[ind]);
+                        // seg.update(0, 0, n-1, ind-1, 0);
+                        fen.update(ind, -peaks[ind-1]);
                         peaks[ind-1] = 0;
-                        seg.update(0, 0, n-1, ind-1, 0);
+                        fen.update(ind, peaks[ind-1]);
+
+                        fen.update(ind+2, -peaks[ind+1]);
                         peaks[ind+1] = 0;
-                        seg.update(0, 0, n-1, ind+1, 0);
+                        fen.update(ind+2, peaks[ind+1]);
+                        // seg.update(0, 0, n-1, ind+1, 0);
                     }
                     else {
                         //if current ind is not peak then
                         //left and right may be peaks so check them
+                        fen.update(ind+1, -peaks[ind]);
                         peaks[ind] = 0;
-                        seg.update(0, 0, n-1, ind, 0);
+                        fen.update(ind+1, peaks[ind]);
                     }
                 }
                 //check ind -1 and ind +1 as peaks
@@ -92,23 +89,31 @@ public:
                     int left = ind-1;
                     if(left-1 >= 0 && left+1 < n) {
                         if(nums[left-1] < nums[left] && nums[left+1] < nums[left]) {
+                            fen.update(left+1, -peaks[left]);
                             peaks[left] = 1;
-                            seg.update(0, 0, n-1, left, 1);
+                            fen.update(left+1, peaks[left]);
+                            // seg.update(0, 0, n-1, left, 1);
                         }
                         else {
+                            fen.update(left+1, -peaks[left]);
                             peaks[left] = 0;
-                            seg.update(0, 0, n-1, left, 0);
+                            fen.update(left+1, peaks[left]);
+                            // seg.update(0, 0, n-1, left, 0);
                         }
                     }
                     int right = ind+1;
                     if(right-1 >= 0 && right+1 < n) {
                         if(nums[right-1] < nums[right] && nums[right+1] < nums[right]) {
+                            fen.update(right+1, -peaks[right]);
                             peaks[right] = 1;
-                            seg.update(0, 0, n-1, right, 1);
+                            fen.update(right+1, peaks[right]);
+                            // seg.update(0, 0, n-1, right, 1);
                         }
                         else {
+                            fen.update(right+1, -peaks[right]);
                             peaks[right] = 0;
-                            seg.update(0, 0, n-1, right, 0);
+                            fen.update(right+1, peaks[right]);
+                            // seg.update(0, 0, n-1, right, 0);
                         }
                     }
                 }

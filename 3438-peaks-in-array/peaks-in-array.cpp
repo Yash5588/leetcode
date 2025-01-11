@@ -62,26 +62,21 @@ public:
                     if(nums[ind-1] < nums[ind] && nums[ind+1] < nums[ind]) {
                         //if current ind is peak then we are sure that left and right are not the peaks
                         //remove previous value and update new value
-                        // seg.update(0, 0, n-1, ind, 1);
                         fen.update(ind+1, -peaks[ind]);
                         peaks[ind] = 1;
-                        fen.update(ind+1, peaks[ind]);
-                        // seg.update(0, 0, n-1, ind-1, 0);
+                        fen.update(ind+1, 1);
+
                         fen.update(ind, -peaks[ind-1]);
                         peaks[ind-1] = 0;
-                        fen.update(ind, peaks[ind-1]);
 
                         fen.update(ind+2, -peaks[ind+1]);
                         peaks[ind+1] = 0;
-                        fen.update(ind+2, peaks[ind+1]);
-                        // seg.update(0, 0, n-1, ind+1, 0);
                     }
                     else {
                         //if current ind is not peak then
                         //left and right may be peaks so check them
                         fen.update(ind+1, -peaks[ind]);
                         peaks[ind] = 0;
-                        fen.update(ind+1, peaks[ind]);
                     }
                 }
                 //check ind -1 and ind +1 as peaks
@@ -91,14 +86,11 @@ public:
                         if(nums[left-1] < nums[left] && nums[left+1] < nums[left]) {
                             fen.update(left+1, -peaks[left]);
                             peaks[left] = 1;
-                            fen.update(left+1, peaks[left]);
-                            // seg.update(0, 0, n-1, left, 1);
+                            fen.update(left+1, 1);
                         }
                         else {
                             fen.update(left+1, -peaks[left]);
                             peaks[left] = 0;
-                            fen.update(left+1, peaks[left]);
-                            // seg.update(0, 0, n-1, left, 0);
                         }
                     }
                     int right = ind+1;
@@ -106,14 +98,11 @@ public:
                         if(nums[right-1] < nums[right] && nums[right+1] < nums[right]) {
                             fen.update(right+1, -peaks[right]);
                             peaks[right] = 1;
-                            fen.update(right+1, peaks[right]);
-                            // seg.update(0, 0, n-1, right, 1);
+                            fen.update(right+1, 1);
                         }
                         else {
                             fen.update(right+1, -peaks[right]);
                             peaks[right] = 0;
-                            fen.update(right+1, peaks[right]);
-                            // seg.update(0, 0, n-1, right, 0);
                         }
                     }
                 }

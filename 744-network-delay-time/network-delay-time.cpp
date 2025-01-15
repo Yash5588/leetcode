@@ -2,7 +2,6 @@ class Solution {
 public:
     vector<int> dijkstra(unordered_map<int,vector<pair<int,int>>> &adj, int n, int k) {
         vector<int> dist(n+1,INT_MAX);
-        dist[0] = 0;
         dist[k] = 0;
         priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> que;
         que.push({0,k});
@@ -28,8 +27,8 @@ public:
         }
         vector<int> dist = dijkstra(adj,n,k);
         int ma = INT_MIN;
-        for(auto &x : dist) {
-            ma = max(ma, x);
+        for(int i = 1;i <= n;i++) {
+            ma = max(ma, dist[i]);
         }
         if(ma == INT_MAX) return -1;
         return ma;

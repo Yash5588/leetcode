@@ -12,9 +12,10 @@ class DisjointSet{
             return parent[node] = findUPar(parent[node]);
         }
 
-        void unionBySize(int u, int v) {
+        bool unionBySize(int u, int v) {
             int ult_u = findUPar(u);
             int ult_v = findUPar(v);
+            if(ult_u == ult_v) return false;
             if(size[ult_u] <= size[ult_v]) {
                 parent[ult_u] = ult_v;
                 size[ult_v] += size[ult_u];
@@ -24,6 +25,7 @@ class DisjointSet{
                 size[ult_u] += size[ult_v];
 
             }
+            return true;
         }
 };
 class Solution {
@@ -32,10 +34,7 @@ public:
         int n = edges.size();
         DisjointSet dsu(n);
         for(auto &edge : edges) {
-            int u = edge[0];
-            int v = edge[1];
-            if(dsu.findUPar(u) == dsu.findUPar(v)) return edge;
-            dsu.unionBySize(edge[0],edge[1]);
+            if(!dsu.unionBySize(edge[0],edge[1])) return edge;
         }
         return {};
     }

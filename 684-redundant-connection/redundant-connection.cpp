@@ -1,26 +1,42 @@
-class Solution {
-public:
-    unordered_map<int,vector<int>> adj;
-    bool dfs(int node, int parent, vector<bool> &visited) {
-        visited[node] = true;
-        for(auto &child : adj[node]) {
-            if(!visited[child]) {
-                if(dfs(child,node,visited)) return true;
+class DisjointSet{
+    vector<int> size,parent;
+    public:
+        DisjointSet(int n) {
+            size.resize(n+1,1);
+            parent.resize(n+1,0);
+            iota(parent.begin(),parent.end(),0);
+        }  
+
+        int findUPar(int node) {
+            if(node == parent[node]) return node;
+            return parent[node] = findUPar(parent[node]);
+        }
+
+        void unionBySize(int u, int v) {
+            int ult_u = findUPar(u);
+            int ult_v = findUPar(v);
+            if(size[ult_u] <= size[ult_v]) {
+                parent[ult_u] = ult_v;
+                size[ult_v] += size[ult_u];
             }
             else {
-                if(parent != child) return true;
+                parent[ult_v] = ult_u;
+                size[ult_u] += size[ult_v];
+
             }
         }
-        return false;
-    }
+};
+class Solution {
+public:
     vector<int> findRedundantConnection(vector<vector<int>>& edges) {
         int n = edges.size();
-        for(auto &x : edges) {
-            adj[x[0]].push_back(x[1]);
-            adj[x[1]].push_back(x[0]);
-            vector<bool> visited(n+1,false);
-            if(dfs(x[0],-1,visited)) return x;
+        DisjointSet dsu(n);
+        for(auto &edge : edges) {
+            int u = edge[0];
+            int v = edge[1];
+            if(dsu.findUPar(u) == dsu.findUPar(v)) return edge;
+            dsu.unionBySize(edge[0],edge[1]);
         }
-        return  {};
+        return {};
     }
 };

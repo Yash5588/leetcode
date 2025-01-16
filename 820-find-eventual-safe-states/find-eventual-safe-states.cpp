@@ -1,35 +1,40 @@
+
 class Solution {
 public:
-    unordered_map<int, vector<int>> adj;
-    vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
-        int V = graph.size();
-        for(int i = 0;i < V;i++) {
-            for(auto &x : graph[i]) {
-                adj[x].push_back(i);
+    vector<int> topoSort(int n, unordered_map<int,vector<int>> &graph) {
+        vector<int> indegree(n,0);
+        for(int i = 0;i < n;i++) {
+            for(auto &node : graph[i]) {
+                indegree[node]++;
             }
         }
-        vector<int> indegree(V,0);
-        for(int i = 0;i < V;i++) {
-            for(auto &x : adj[i]) {
-                indegree[x]++;
-            }
-        }
+
         queue<int> que;
-        for(int i = 0;i < V;i++) {
+        for(int i = 0;i < n;i++) {
             if(indegree[i] == 0) que.push(i);
         }
+
         vector<int> res;
         while(!que.empty()) {
-            int node = que.front();
+            int curr = que.front();
+            res.push_back(curr);
             que.pop();
-            res.push_back(node);
-            for(auto &x : adj[node]) {
-                indegree[x]--;
-                if(indegree[x] == 0) {
-                    que.push(x);
-                }
+            for(auto &child : graph[curr]) {
+                indegree[child]--;
+                if(indegree[child] == 0) que.push(child);
             }
         }
+        return res;
+    }
+    vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
+        unordered_map<int,vector<int>> adj;
+        int n = graph.size();
+        for(int i = 0;i < n;i++) {
+            for(auto &node : graph[i]) {
+                adj[node].push_back(i);
+            }
+        }
+        vector<int> res = topoSort(n,adj);
         sort(res.begin(),res.end());
         return res;
     }

@@ -3,9 +3,9 @@ public:
     //kadane's algo
     int maxSubarraySum(vector<int> &nums) {
         int n = nums.size();
-        int sum = nums[0];
-        int ma = nums[0];
-        for(int i = 1;i < n;i++) {
+        int sum = 0;
+        int ma = INT_MIN;
+        for(int i = 0;i < n;i++) {
             sum = max(sum+nums[i],nums[i]);
             ma = max(ma, sum);
         }
@@ -14,9 +14,9 @@ public:
     //reverse kadane's algo
     int minSubarraySum(vector<int> &nums) {
         int n = nums.size();
-        int sum = nums[0];
-        int mi = nums[0];
-        for(int i = 1;i < n;i++) {
+        int sum = 0;
+        int mi = INT_MAX;
+        for(int i = 0;i < n;i++) {
             sum = min(sum+nums[i],nums[i]);
             mi = min(mi, sum);
         }
@@ -28,8 +28,10 @@ public:
        int maxSum = maxSubarraySum(nums); 
        int minSum = minSubarraySum(nums);
        int circularSum = total - minSum;
+       if(maxSum < 0) return maxSum;
        //there is no positive element in array
-       if(maxSum < 0) return *max_element(nums.begin(),nums.end());
+       //otherwise maxSum would be that element
+    //    if(maxSum < 0) return *max_element(nums.begin(),nums.end());
        return max(maxSum, circularSum);
     }
 };

@@ -49,11 +49,11 @@ public:
                 }
             }
         }
-        vector<int> parent = ds.parent;
         int cnt = 0;
+        unordered_set<int> comps;
         for(int i = 0;i < n;i++) {
-            if(i == parent[i]) cnt++;
+            comps.insert(ds.findUPar(i));
         }
-        return cnt;
+        return comps.size();
     }
 };

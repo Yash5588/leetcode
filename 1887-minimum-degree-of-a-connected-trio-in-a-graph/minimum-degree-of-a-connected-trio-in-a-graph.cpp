@@ -16,6 +16,7 @@ public:
         for(int i = 1;i <= n;i++) {
             for(int j = 1;j < n;j++) {
                 for(int k = j+1;k <= n;k++) {
+                    //check if there is an edge between each node in trio
                     if(adj[i][j] == 1 && adj[i][k] == 1 && adj[j][k] == 1) {
                         //remove inner trio edges which is 2 degree for each edge
                         mi = min(mi, degree[i] + degree[j] + degree[k] - 6);

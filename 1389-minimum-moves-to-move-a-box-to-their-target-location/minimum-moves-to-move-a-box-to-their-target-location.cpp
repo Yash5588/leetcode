@@ -86,8 +86,8 @@ public:
                         if(grid[new_box_row][new_box_col] == '.' && grid[player_target_row][player_target_col] == '.') {
                             //now check whether the player can from  his previous position to target position so that the box can move in specific direction
                             //ex: if box is at (2,3) and it wants to move to (2,2) now what should be player position?
-                            //yes it should be at (2,1) then only he can push to (2,3)
-                            //so check if player can reach (2,1) from his current position
+                            //yes it should be at (2,4) then only he can push to (2,3)
+                            //so check if player can reach (2,4) from his current position
                             //also make sure current box position is treated as obstacle 
                             if(canReach(grid, player_row, player_col, player_target_row, player_target_col, box_row, box_col)) {
                                 que.push({new_box_row, new_box_col, box_row, box_col, pushes+1});

@@ -36,6 +36,7 @@ public:
         vector<int> initial_player;
         vector<int> initial_box;
         vector<int> target;
+        //after loading coordinates make sure that we are marking them as '.'
         for(int i = 0;i < m;i++) {
             for(int j = 0;j < n;j++) {
                 if(grid[i][j] == 'S') {
@@ -52,6 +53,7 @@ public:
                 }
             }
         }
+        //keep track of current state
         set<tuple<int,int,int,int>> visited;
         queue<vector<int>> que;
         que.push({initial_box[0],initial_box[1],initial_player[0],initial_player[1],0});
@@ -77,9 +79,16 @@ public:
                 int player_target_row = box_row - adj[i].first;
                 int player_target_col = box_col - adj[i].second;
                 
+                //check both new positon of box and target position of player valid or not
                 if(new_box_row >= 0 && new_box_row < m && new_box_col >= 0 && new_box_col < n) {
                     if(player_target_row >= 0 && player_target_row < m && player_target_col >= 0 && player_target_col < n) {
+                        //check if both positions are free cells not walls
                         if(grid[new_box_row][new_box_col] == '.' && grid[player_target_row][player_target_col] == '.') {
+                            //now check whether the player can from  his previous position to target position so that the box can move in specific direction
+                            //ex: if box is at (2,3) and it wants to move to (2,2) now what should be player position?
+                            //yes it should be at (2,1) then only he can push to (2,3)
+                            //so check if player can reach (2,1) from his current position
+                            //also make sure current box position is treated as obstacle 
                             if(canReach(grid, player_row, player_col, player_target_row, player_target_col, box_row, box_col)) {
                                 que.push({new_box_row, new_box_col, box_row, box_col, pushes+1});
                             }

@@ -1,5 +1,6 @@
 class Solution {
 public:
+    //TC : O(M*N)^3
     vector<pair<int,int>> adj = {{-1,0},{1,0},{0,1},{0,-1}};
 
     //current box position is also an obstacle

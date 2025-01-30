@@ -36,9 +36,11 @@ class DisjointSet{
             }
         }
 
-        void reset(vector<int> nodes) {
+        //removing nodes connection if ult p is not 0
+        void reset(vector<int> &nodes) {
             for(auto &x : nodes) {
                 if(findUPar(x) != 0) {
+                    //make them as their parent and size as 1
                     parent[x] = x;
                     size[x] = 1;
                 }
@@ -53,15 +55,21 @@ public:
 
     vector<int> findAllPeople(int n, vector<vector<int>>& meetings, int firstPerson) {
         int size = meetings.size();
+        //sorting
         sort(meetings.begin(), meetings.end(), sortByTime);
         int first = 0,last = 0;
         DisjointSet dsu(n);
 
+        //connect 0 and firstperson
         dsu.unionBySize(0, firstPerson);
-        
+
+        //use two pointer to connect meetings of same time
         while(last < size) {
             vector<int> sameTime;
             while(last < size && meetings[first][2] == meetings[last][2]) {
+                //while connecting make sure to store them
+                //why becoz if no one knows secret of a meeting 
+                //then we have to revoke the connection
                 int u = meetings[last][0];
                 int v = meetings[last][1];
                 sameTime.push_back(u);
@@ -69,9 +77,12 @@ public:
                 dsu.unionBySize(u,v);
                 last++;
             }
+            //revoke if node's ultimate parent is not 0
+            //remove them from connection
             dsu.reset(sameTime);
             first = last;
         }
+        //get all the nodes whose ultimate parent is 0
         vector<int> res;
         for(int i = 0;i < n;i++) {
             if(dsu.findUPar(i) == 0) res.push_back(i);

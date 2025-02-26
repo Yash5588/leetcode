@@ -1,5 +1,12 @@
 class Solution {
 public:
+    int modInverse(int a, int mod) {
+        for (int i = 1; i < mod; i++) {
+            if ((a * i) % mod == 1) return i;
+        }
+        return 1;
+    }
+
 int nCrModpDP(int n, int r, int p) 
 { 
     // The array C is going to store last row of 
@@ -45,6 +52,7 @@ int nCrModpDP(int n, int r, int p)
 
     bool hasSameDigits(string s) {
         int n = s.length();
+        cout << n << endl;
         n -= 2;
         vector<long long> dp_mod2(n+1,0);
         vector<long long> dp_mod5(n+1,0);
@@ -56,14 +64,14 @@ int nCrModpDP(int n, int r, int p)
         int size = s.length();
         int j = 0;
         for(int i = 0;i < size-1;i++) {
-            int weight = (5 * dp_mod2[j] + 6 * dp_mod5[j]) % 10;
+            int weight = 5 * dp_mod2[j] + 6 * dp_mod5[j];
             d1 += (s[i] - '0') * weight;
             d1 %= 10;
             j++;
         }
         j = 0;
         for(int i = 1;i < size;i++) {
-            int weight = (5 * dp_mod2[j] + 6 * dp_mod5[j]) % 10;
+            int weight = 5 * dp_mod2[j] + 6 * dp_mod5[j];
             d2 += (s[i] - '0') * weight;
             d2 %= 10;
             j++;

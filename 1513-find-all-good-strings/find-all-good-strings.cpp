@@ -1,16 +1,16 @@
 class Solution {
 public:
-    int dp[501][51][2][2];
+    int dp[501][51][2];
     int mod = 1e9+7;
-    int solve(int n, string &s1, string &s2, string &evil, int pos, int matched, bool leftBound, bool rightBound, vector<int> &lps) {
+    long long solve(int n, string &s, string &evil, int pos, int matched, bool tight, vector<int> &lps) {
         // if(str.length() >= evil.length() && str.substr(str.length() - evil.length()) == evil) return 0;
         if(matched == evil.length()) return 0;
         if(pos >= n) return 1; //constructed full string
-        if(dp[pos][matched][leftBound][rightBound] != -1) return dp[pos][matched][leftBound][rightBound];
-        char from = leftBound ? s1[pos] : 'a';
-        char to = rightBound ? s2[pos] : 'z';
+        if(dp[pos][matched][tight] != -1) return dp[pos][matched][tight];
+
         int cnt = 0;
-        for(char ch = from; ch <= to; ch++) {
+        char limit = (tight) ? s[pos] : 'z';
+        for(char ch = 'a'; ch <= limit; ch++) {
 
             int prev_index = matched;
             while(prev_index > 0 && evil[prev_index] != ch) {
@@ -19,10 +19,10 @@ public:
 
             if(evil[prev_index] == ch) prev_index++;
 
-            cnt = (cnt + solve(n, s1, s2, evil, pos+1, prev_index, leftBound && (ch == from), rightBound && (ch == to), lps) % mod) % mod;
+            cnt = (cnt + solve(n, s, evil, pos+1, prev_index, tight && (ch == s[pos]), lps) % mod) % mod;
         }
 
-        return dp[pos][matched][leftBound][rightBound] = cnt;
+        return dp[pos][matched][tight] = cnt;
     }
 
     vector<int> kmp(string &str) {
@@ -41,9 +41,13 @@ public:
 
 
     int findGoodStrings(int n, string s1, string s2, string evil) {
-        memset(dp, -1, sizeof(dp));
         //build the lps for pattern
         vector<int> lps = kmp(evil);
-        return solve(n, s1, s2, evil, 0, 0, true, true, lps) % mod;
+        memset(dp, -1, sizeof(dp));
+        s1.back() = s1.back()-1;
+        long long left = solve(n, s1, evil, 0, 0, true, lps) % mod;
+        memset(dp, -1, sizeof(dp));
+        long long right = solve(n, s2, evil, 0, 0, true, lps) % mod;
+        return (right - left + mod) % mod;
     }
 };

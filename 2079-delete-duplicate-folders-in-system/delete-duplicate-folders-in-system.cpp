@@ -69,7 +69,7 @@ public:
 
     void getResult(Node* root, vector<string> &temp) {
         if(root->exclude) return;
-        if(root->isEnd) ans.push_back(temp);
+        if(!temp.empty()) ans.push_back(temp);
         for(auto &child : root->links) {
             temp.push_back(child.first);
             getResult(child.second, temp);

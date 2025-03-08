@@ -1,31 +1,32 @@
 class Solution {
 public:
-    int dp[100][100][100];
-    bool solve(string &s, int left, int right, int pos) {
+    int dp[100][100];
+    //+1 for left and -1 for right
+    bool solve(string &s, int bracket, int pos) {
         int n = s.length();
         if(pos >= n) {
-            return left == right;
+            return bracket == 0;
         }
-        if(dp[left][right][pos] != -1) return dp[left][right][pos];
-        if(right > left) {
+        if(bracket < 0) {
             return false;
         }
+        if(dp[pos][bracket] != -1) return dp[pos][bracket];
         bool flag = false;
         if(s[pos] == '(') {
-            flag |= solve(s, left+1, right, pos+1);
+            flag |= solve(s, bracket+1, pos+1);
         }
         else if(s[pos] == ')') {
-            flag |= solve(s, left, right+1, pos+1);
+            flag |= solve(s, bracket-1, pos+1);
         }
         else {
-            flag |= solve(s, left+1, right, pos+1);
-            flag |= solve(s, left, right+1, pos+1);
-            flag |= solve(s, left, right, pos+1);
+            flag |= solve(s, bracket+1, pos+1);
+            flag |= solve(s, bracket-1, pos+1);
+            flag |= solve(s, bracket, pos+1);
         }
-        return dp[left][right][pos] = flag;
+        return dp[pos][bracket] = flag;
     }
     bool checkValidString(string s) {
         memset(dp,-1,sizeof(dp));
-        return solve(s, 0, 0, 0);
+        return solve(s, 0, 0);
     }
 };

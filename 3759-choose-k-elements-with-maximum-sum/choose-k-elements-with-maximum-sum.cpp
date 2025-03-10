@@ -11,7 +11,7 @@ public:
         sort(vec.begin(),vec.end());
         vector<long long> res(n,0);
         long long curr_sum = 0,prev_sum = 0;
-        int prev = vec[0].first;
+        int prev = -1;
         for(int i = 0;i < n;i++) {
             int val = vec[i].first;
             int idx = vec[i].second;

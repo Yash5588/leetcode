@@ -19,7 +19,7 @@ class SegmentTree{
         bool query(int i, int left, int right, int val) {
         if (left == right) {
             if (segTree[i] >= val) {
-                segTree[i] = -1; // Mark the basket as used
+                segTree[i] = -1;
                 return true;
             }
             return false;

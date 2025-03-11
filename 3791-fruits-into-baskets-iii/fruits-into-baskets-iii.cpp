@@ -17,29 +17,29 @@ class SegmentTree{
         }
 
         bool query(int i, int left, int right, int val) {
-        if (left == right) {
-            if (segTree[i] >= val) {
-                segTree[i] = -1;
+            if(left == right) {
+                if(segTree[i] >= val) {
+                    segTree[i] = -1;
+                    return true;
+                }
+                else return false;
+            }
+
+            if(val > segTree[i]) return false; //cut down the traversal
+
+            int mid = left + (right - left)/2;
+            bool isLeft = query(2*i+1, left, mid, val);
+            if(isLeft) {
+                segTree[i] = max(segTree[2*i+1], segTree[2*i+2]);
+                return true;
+            }
+            bool isRight = query(2*i+2, mid+1, right, val);
+            if(isRight) {
+                segTree[i] = max(segTree[2*i+1], segTree[2*i+2]);
                 return true;
             }
             return false;
         }
-
-        if(segTree[i] < val) return false;
-        
-        int mid = left + (right - left) / 2;
-        bool isLeft = query(2 * i + 1, left, mid, val);
-        if (isLeft) {
-            segTree[i] = max(segTree[2 * i + 1], segTree[2 * i + 2]);
-            return true;
-        }
-        bool isRight = query(2 * i + 2, mid + 1, right, val);
-        if (isRight) {
-            segTree[i] = max(segTree[2 * i + 1], segTree[2 * i + 2]);
-            return true;
-        }
-        return false;
-    }
 };
 class Solution {
 public:

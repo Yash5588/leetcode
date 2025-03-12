@@ -49,9 +49,13 @@ public:
             int idx = nums[i];
             int next_max = seg.query(start, end, 0, 0, size-1);
             dp[i] = next_max + 1;
+
+            //store max possible lis from all indices
             res = max(res, dp[i]);
+
             //previous max subsequence starting from this element
             int p_max = seg.query(idx, idx, 0, 0, size-1);
+            
             //currentlty formed subsequence length
             int c_max = dp[i];
             int val = max(p_max, c_max);

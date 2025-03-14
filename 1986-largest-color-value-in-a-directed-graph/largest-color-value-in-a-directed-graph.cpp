@@ -26,11 +26,10 @@ public:
             int node = que.front();
             que.pop();
 
-            freq_dp[node][colors[node] - 'a']++;
+            int idx = colors[node] - 'a';
+            freq_dp[node][idx]++;
 
-            for(int i = 0;i < 26;i++) {
-                mxm = max(mxm, freq_dp[node][i]);
-            }
+            mxm = max(mxm, freq_dp[node][idx]);
 
             cnt++;
 

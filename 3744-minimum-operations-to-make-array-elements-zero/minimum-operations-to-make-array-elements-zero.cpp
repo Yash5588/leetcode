@@ -8,7 +8,7 @@ public:
             long long sum = 0;
             int k = 0;
             long long low = 1;
-            while(low <= r) {
+            while(low <= 1e9) {
                 long long high = low * 4;
                 if(low > r) break;
                 long long start = max(low, l);

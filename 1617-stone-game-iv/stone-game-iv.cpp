@@ -1,6 +1,6 @@
 class Solution {
 public:
-    int dp[100001];
+    int dp[100000];
     //true - alice wins
     //false - bob wins
     //draw tree to understand better

@@ -2,10 +2,6 @@ class Solution {
 public:
     bool isValidSerialization(string preorder) {
         int n = preorder.length();
-        if(preorder[0] == '#') {
-            if(n == 1) return true;
-            return false;
-        }
         int vacancy = 1;
         int i = 0;
         while(i < n) {

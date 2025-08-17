@@ -9,7 +9,6 @@ public:
         int members = 0;
         for(auto &[loc,num] : mp) {
             members += num;
-            if(members < 0) return false;
             if(members > capacity) return false;
         }
         return true;

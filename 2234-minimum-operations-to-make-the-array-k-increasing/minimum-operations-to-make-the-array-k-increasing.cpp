@@ -5,6 +5,8 @@ public:
         vector<int> vec;
         int total = 0;
         for(int i = startPos;i < n;i += k) {
+            //for longest increasing subsequence use lower bound
+            //for longest non decreasing subsequence use upper bound
             int ind = upper_bound(vec.begin(),vec.end(),nums[i]) - vec.begin();
             if(ind == vec.size()) vec.push_back(nums[i]);
             else vec[ind] = nums[i];

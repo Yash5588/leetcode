@@ -1,14 +1,20 @@
 class Solution {
 public:
-    vector<string> sortPeople(vector<string>& a, vector<int>& h) {
-        vector<string> name(100010,"");
-        for(int i=0;i<a.size();i++) {
-            name[h[i]] = a[i];
+    vector<string> sortPeople(vector<string>& names, vector<int>& heights) {
+        int n=heights.size();
+        for(int i=0;i<n-1;i++){
+            for(int j=0;j<n-i-1;j++){
+                if(heights[j]<heights[j+1]){
+                    int h=heights[j];
+                    heights[j]=heights[j+1];
+                    heights[j+1]=h;
+                    string s=names[j];
+                    names[j]=names[j+1];
+                    names[j+1]=s;
+                }
+            }
         }
-        vector<string> ans;
-        for(int i=100000;i>=0;i--) {
-            if(name[i].size()) ans.push_back(name[i]);
-        }
-        return ans;
+        return names;
+        
     }
 };

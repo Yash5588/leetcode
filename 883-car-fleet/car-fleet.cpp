@@ -1,29 +1,27 @@
 class Solution {
 public:
-    int carFleet(int target, vector<int>& pos, vector<int>& speed) {
-        int n = pos.size();
-        vector<pair<int,int>> pos_speed(n);
-        for(int i=0;i<n;i++) {
-            pos_speed[i] = {pos[i],speed[i]};
+    int carFleet(int target, vector<int>& position, vector<int>& speed) {
+        int n = position.size();
+        
+        vector<pair<int, int>> cars;
+        for (int i = 0; i < n; i++) {
+            cars.push_back({position[i], speed[i]});
         }
-        unordered_set<double> ans;
-        sort(pos_speed.begin(),pos_speed.end());
-        stack<double> sta;
-        for(int i=n-1;i>=0;i--) {
-            double time = (target - pos_speed[i].first) / (double)pos_speed[i].second;
-            while(!sta.empty() && sta.top() < time) {
-                sta.pop();
-            }
-            if(!sta.empty()) {
-                ans.insert(sta.top());
-                sta.push(sta.top());
-            }
-            else {
-                ans.insert(time);
-                sta.push(time);
+        
+        sort(cars.begin(), cars.end(), greater<pair<int, int>>());
+        
+        stack<double> st;
+        
+        for (auto& car : cars) {
+            int pos = car.first;
+            int spd = car.second;
+            double timeTaken = (double)(target - pos) / spd;
+            
+            if (st.empty() || timeTaken > st.top()) {
+                st.push(timeTaken);
             }
         }
-        ans.insert(sta.top());
-        return ans.size();
+        
+        return st.size();        
     }
 };

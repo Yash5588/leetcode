@@ -22,7 +22,7 @@ public:
 
         if(size[rootU] < size[rootV]) {
             swap(rootU,rootV);
-            swap(xorU,xorV);
+            swap(xorU,xorU);
         }
 
         parent[rootV] = rootU;

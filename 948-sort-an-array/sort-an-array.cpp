@@ -1,41 +1,39 @@
 class Solution {
 public:
     void merge(vector<int> &nums, int low, int mid, int high) {
-        int i = low, j = mid+1;
         vector<int> temp;
-        while(i <= mid && j <= high) {
-            if(nums[i] < nums[j]) {
-                temp.push_back(nums[i]);
-                i++;
+        int left = low, right = mid+1;
+        while(left <= mid && right <= high) {
+            if(nums[left] < nums[right]) {
+                temp.push_back(nums[left]);
+                left++;
             }
             else {
-                temp.push_back(nums[j]);
-                j++;
+                temp.push_back(nums[right]);
+                right++;
             }
         }
-        while(i <= mid) {
-            temp.push_back(nums[i]);
-            i++;
+        while(left <= mid) {
+            temp.push_back(nums[left]);
+            left++;
         }
-        while(j <= high) {
-            temp.push_back(nums[j]);
-            j++;
+        while(right <= high) {
+            temp.push_back(nums[right]);
+            right++;
         }
         for(int i = low;i <= high;i++) {
-            nums[i] = temp[i-low];
+            nums[i] = temp[i - low];
         }
     }
-    void mergeSort(vector<int> &nums, int low, int high) {
-        if(low < high) {
-            int mid = (low + high)/2;
-            mergeSort(nums, low, mid);
-            mergeSort(nums, mid+1, high);
-            merge(nums, low, mid, high);
-        }
+    void mergeSort(vector<int> &nums,int low,int high) {
+        if(low >= high) return;
+        int mid = (high + low)/2;
+        mergeSort(nums,low,mid);
+        mergeSort(nums,mid+1,high);
+        merge(nums,low,mid,high);
     }
     vector<int> sortArray(vector<int>& nums) {
-        int n = nums.size();
-        mergeSort(nums, 0, n-1);
+        mergeSort(nums,0,nums.size()-1);
         return nums;
     }
 };

@@ -11,25 +11,22 @@
  */
 class Solution {
 public:
-    int pre_index = 0;
-    unordered_map<int,int> inorder_hash;
-    TreeNode* createTree(vector<int> &preorder, int start, int end) {
-        int n = preorder.size();
-        if(start > end) return nullptr;
-        int ele = preorder[pre_index];
-        int ind = inorder_hash[ele];
-        TreeNode* root = nullptr;
-        pre_index++;
-        root = new TreeNode(ele);
-        root->left = createTree(preorder,start,ind-1);
-        root->right = createTree(preorder,ind+1,end);
+    unordered_map<int,int> in_idx;
+    TreeNode* build(vector<int> &preorder, int pre_start, int pre_end, vector<int> &inorder, int in_start, int in_end) {
+        if(pre_start > pre_end || in_start > in_end) return nullptr;
+        TreeNode* root = new TreeNode(preorder[pre_start]);
+        int root_idx = in_idx[root->val];
+        int num_left = root_idx - in_start;
+        root->left = build(preorder, pre_start+1, pre_start+num_left, inorder, in_start, root_idx-1);
+        root->right = build(preorder, pre_start+num_left+1, pre_end, inorder, root_idx+1, in_end);
         return root;
+
     }
     TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
-        int n = preorder.size();
-        for(int i = 0;i < n;i++) {
-            inorder_hash[inorder[i]] = i;
+        for(int i = 0;i < inorder.size();i++) {
+            in_idx[inorder[i]] = i;
         }
-        return createTree(preorder,0,n-1);
+        return build(preorder, 0, preorder.size()-1,
+        inorder, 0, inorder.size()-1);
     }
 };

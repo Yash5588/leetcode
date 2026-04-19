@@ -28,7 +28,7 @@ public:
                 if(node->left != nullptr) que.push(node->left); 
                 if(node->right != nullptr) que.push(node->right); 
             }
-            reverse = !reverse;
+            reverse ^= true;
             levels.push_back(vec);
         }
         return levels;

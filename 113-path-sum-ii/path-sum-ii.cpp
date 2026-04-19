@@ -22,8 +22,6 @@ public:
             if(targetSum - root->val == 0) {
                 res.push_back(temp);
             } 
-            temp.pop_back();
-            return;
         }
         pathSum(root->left, targetSum - root->val, temp); 
         pathSum(root->right, targetSum - root->val, temp);

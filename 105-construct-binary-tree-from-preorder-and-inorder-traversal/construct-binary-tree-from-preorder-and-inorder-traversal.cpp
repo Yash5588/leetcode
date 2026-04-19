@@ -13,7 +13,9 @@ class Solution {
 public:
     unordered_map<int,int> in_idx;
     TreeNode* build(vector<int> &preorder, int pre_start, int pre_end, vector<int> &inorder, int in_start, int in_end) {
-        if(in_start > in_end) return nullptr;
+        if(in_start > in_end || pre_start > pre_end) {
+            return nullptr;
+        }
         TreeNode* root = new TreeNode(preorder[pre_start]);
         int root_idx = in_idx[root->val];
         int num_left = root_idx - in_start;

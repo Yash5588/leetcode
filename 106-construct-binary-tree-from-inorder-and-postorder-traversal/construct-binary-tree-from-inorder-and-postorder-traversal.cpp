@@ -11,27 +11,23 @@
  */
 class Solution {
 public:
-    int post_index = 0;
-    TreeNode* createTree(vector<int> &inorder, vector<int> &postorder, int start, int end) {
-        if(start > end) {
+    unordered_map<int,int> in_idx;
+    TreeNode* build(vector<int> &inorder, int in_start, int in_end, vector<int> &postorder, int post_start, int post_end) {
+        if(in_start > in_end || post_start > post_end) {
             return nullptr;
         }
-        int n = inorder.size();
-        TreeNode* root = nullptr;
-        int ele = postorder[post_index];
-        int ind = find(inorder.begin(),inorder.end(),ele) - inorder.begin();
-        if(ind < n) {
-            post_index++;
-            root = new TreeNode(ele);
-            root->right = createTree(inorder,postorder,ind+1,end);
-            root->left = createTree(inorder,postorder,start,ind-1);
-        }
+        TreeNode* root = new TreeNode(postorder[post_start]);
+        int root_idx = in_idx[root->val];
+        int num_right = in_end - root_idx;
+        root->right = build(inorder, root_idx + 1, in_end, postorder, post_start + 1, post_start + num_right);
+        root->left = build(inorder, in_start, root_idx - 1, postorder, post_start + num_right + 1, post_end);
         return root;
     }
     TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
-        //if we reverse the postorder array it is nothing
-        //but preorder with root right left
         reverse(postorder.begin(),postorder.end());
-        return createTree(inorder,postorder,0,inorder.size()-1);
+        for(int i = 0;i < inorder.size();i++) {
+            in_idx[inorder[i]] = i;
+        }
+        return build(inorder, 0, inorder.size()-1, postorder, 0, postorder.size()-1);
     }
 };

@@ -11,23 +11,22 @@
  */
 class Solution {
 public:
-    int pre_ind = 0;
-    TreeNode* createTree(vector<int> &preorder,vector<int> &postorder, int start, int end) {
-        int n = preorder.size();
-        if(start > end) return nullptr;
-        if(pre_ind == n-1) return new TreeNode(preorder[pre_ind]);
-        TreeNode* root = new TreeNode(preorder[pre_ind]);
-        int left_ele = preorder[pre_ind+1];
-        pre_ind++;
-        auto iter = find(postorder.begin()+start+1, postorder.begin()+end+1, left_ele);
-        int ind = iter - postorder.begin();
-        root->left = createTree(preorder, postorder, ind, end);
-        root->right = createTree(preorder, postorder, start+1, ind-1);
+    unordered_map<int,int> post_idx;
+    TreeNode* build(vector<int> &preorder, int pre_start, int pre_end, vector<int> &postorder, int post_start, int post_end) {
+        if(pre_start > pre_end || post_start > post_end) return nullptr;
+        if(pre_start == pre_end && post_start == post_end) return new TreeNode(preorder[pre_start]);
+        TreeNode* root = new TreeNode(preorder[pre_start]);
+        int left_root_idx = post_idx[preorder[pre_start+1]];
+        int left_size = post_end - left_root_idx + 1;
+        root->left = build(preorder, pre_start + 1, pre_start + left_size, postorder, left_root_idx, post_end);
+        root->right = build(preorder, pre_start + left_size + 1, pre_end, postorder, post_start+1, left_root_idx-1);
         return root;
     }
     TreeNode* constructFromPrePost(vector<int>& preorder, vector<int>& postorder) {
         reverse(postorder.begin(),postorder.end());
-        int n = preorder.size();
-        return createTree(preorder,postorder,0,n-1);
+        for(int i = 0;i < postorder.size();i++) {
+            post_idx[postorder[i]] = i;
+        }
+        return build(preorder, 0, preorder.size()-1, postorder, 0, postorder.size()-1);
     }
 };

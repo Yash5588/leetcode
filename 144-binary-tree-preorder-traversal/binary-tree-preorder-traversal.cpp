@@ -21,7 +21,7 @@ public:
             }
             else {
                 TreeNode* prev = curr->left;
-                while(prev->right && prev->right != curr) {
+                while(prev->right != nullptr && prev->right != curr) {
                     prev = prev->right;
                 }
                 if(prev->right == nullptr) {

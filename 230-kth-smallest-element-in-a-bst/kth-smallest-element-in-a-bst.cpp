@@ -11,32 +11,15 @@
  */
 class Solution {
 public:
+    vector<int> inorder;
+    void in(TreeNode* root) {
+        if(root == nullptr) return;
+        in(root->left);
+        inorder.push_back(root->val);
+        in(root->right);
+    }
     int kthSmallest(TreeNode* root, int k) {
-        TreeNode* curr = root;
-        int ans = 0;
-        while(curr != nullptr) {
-            if(curr->left == nullptr) {
-                k--;
-                if(k == 0) ans = curr->val;
-                curr = curr->right;
-            }
-            else {
-                TreeNode* prev = curr->left;
-                while(prev->right && prev->right != curr) {
-                    prev = prev->right;
-                }
-                if(prev->right == nullptr) {
-                    prev->right = curr;
-                    curr = curr->left;
-                }
-                else {
-                    prev->right = nullptr;
-                    k--;
-                    if(k == 0) ans = curr->val;
-                    curr = curr->right;
-                }
-            }
-        }
-        return ans;
+        in(root);
+        return inorder[k-1];
     }
 };

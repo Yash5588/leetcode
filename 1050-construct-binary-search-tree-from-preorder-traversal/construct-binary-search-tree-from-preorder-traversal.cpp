@@ -11,41 +11,16 @@
  */
 class Solution {
 public:
-    // int split(vector<int> &a, int first, int last) {
-    //     int ind = first+1;
-    //     while(ind < a.size() && a[ind] < a[first]) ind++;
-    //     return ind-1;
-    // }
-    // TreeNode* createTree(vector<int> &a, int first, int last) {
-    //     if(first > last) return nullptr;
-    //     TreeNode* root = new TreeNode(a[first]);
-    //     int ind = split(a,first,last);
-    //     root->left = createTree(a,first+1,ind);
-    //     root->right = createTree(a,ind+1,last);
-    //     return root;
-    // }
-    TreeNode* bstFromPreorder(vector<int>&a) {
-        int n = a.size();
-        stack<TreeNode*> sta;
-        TreeNode* root = nullptr;
-        for(int i=0;i<n;i++) {
-            TreeNode* node = new TreeNode(a[i]);
-            if(i == 0) root = node;
-            TreeNode* prev = nullptr;
-            while(!sta.empty() && sta.top()->val <= a[i]) {
-                prev = sta.top();
-                sta.pop();
-            }
-            if(prev != nullptr) {
-                prev->right = node;
-            }
-            if(!sta.empty()) {
-                if(!sta.top()->left) {
-                    sta.top()->left = node;
-                }
-            }
-            sta.push(node);
-        }
+    int idx = 0;
+    TreeNode* build(vector<int> &preorder, int upper_bound) {
+        if(idx >= preorder.size()) return nullptr;
+        if(preorder[idx] > upper_bound) return nullptr;
+        TreeNode* root = new TreeNode(preorder[idx++]);
+        root->left = build(preorder, root->val);
+        root->right = build(preorder, upper_bound);
         return root;
+    }
+    TreeNode* bstFromPreorder(vector<int>& preorder) {
+        return build(preorder, INT_MAX);
     }
 };

@@ -8,7 +8,6 @@ public:
             return 0;
         }
         if(dp[idx][m][n] != -1) return dp[idx][m][n];
-        int pick = -1e5, not_pick = -1e5;
         int ones = 0,zeros = 0;
         for(auto &x : strs[idx]) {
             if(x == '0') zeros++;

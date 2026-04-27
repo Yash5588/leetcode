@@ -17,7 +17,7 @@ public:
         return dp[amount][idx] = min(pick, not_pick);
     }
     int coinChange(vector<int>& coins, int amount) {
-        sort(coins.begin(),coins.end(),greater<int>());
+        // sort(coins.begin(),coins.end(),greater<int>());
         memset(dp,-1,sizeof(dp));
         int res = solve(coins, amount, 0);
         return (res >= 1e9) ? -1 : res;

@@ -8,7 +8,7 @@ public:
         }
         if(dp[n][k] != -1) return dp[n][k];
         int mxm = INT_MIN;
-        for(int i = 1;i <= n;i++) {
+        for(int i = n;i >= 1;i--) {
             mxm = max(mxm, i * solve(n-i,k+1));
         }
         return dp[n][k] = mxm;

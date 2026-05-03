@@ -7,7 +7,6 @@ public:
         if(dungeon[m-1][n-1] < 0) {
             dp[m-1][n-1] = abs(dungeon[m-1][n-1]);
         }
-        // dp[m-1][n-1]++;
         for(int i = m-2;i >= 0;i--) {
             dp[i][n-1] += max(0, dp[i+1][n-1] - dungeon[i][n-1]);
         }
@@ -18,12 +17,6 @@ public:
             for(int j = n-2;j >= 0;j--) {
                 dp[i][j] += max(0, min(dp[i+1][j], dp[i][j+1]) - dungeon[i][j]);
             }
-        }
-        for(int i = 0;i < m;i++) {
-            for(int j = 0;j < n;j++) {
-                cout << dp[i][j] << ' ';
-            }
-            cout << endl;
         }
         return dp[0][0]+1;
     }

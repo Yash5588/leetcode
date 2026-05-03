@@ -2,32 +2,30 @@ class Solution {
 public:
     int findNumberOfLIS(vector<int>& nums) {
         int n = nums.size();
-        vector<int> dp(n,1);
-        vector<int> count(n,1);
-        int ma = INT_MIN;
-        for(int i = 0;i < n;i++) {
-            for(int prev = 0;prev < i;prev++) {
-                if(nums[i] > nums[prev]) {
-                    //newly formed LIS length now for it the count is same as prev lis
-                    if(dp[i] < dp[prev] + 1) {
-                        dp[i] = dp[prev] + 1;
-                        count[i] = count[prev];
+        vector<int> dp(n+1,1);
+        vector<int> cnt(n+1,1);
+        int mxm = 1;
+        for(int i = 1;i <= n;i++) {
+            for(int j = 1;j < i;j++) {
+                if(nums[i-1] > nums[j-1]) {
+                    if(dp[i] < dp[j] + 1) {
+                        dp[i] = dp[j]+1;
+                        cnt[i] = cnt[j];
                     }
-                    //if max is seen again visualize it we found more of same max len lis so add those freq as well
-                    else if(dp[i] == dp[prev] + 1) {
-                        count[i] += count[prev];
+                    else if(dp[i] == dp[j] + 1) {
+                        cnt[i] += cnt[j];
                     }
+                    mxm = max(mxm, dp[i]);
                 }
             }
-            ma = max(ma, dp[i]);
         }
-        //get max length lis count 
-        int total_count = 0;
-        for(int i = 0;i < n;i++) {
-            if(dp[i] == ma) {
-                total_count += count[i];
+        int c = 0;
+        cout << mxm << endl;
+        for(int i = 1;i <= n;i++) {
+            if(dp[i] == mxm) {
+                c += cnt[i];
             }
         }
-        return total_count;
+        return c;
     }
 };

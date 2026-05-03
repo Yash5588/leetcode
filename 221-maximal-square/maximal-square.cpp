@@ -1,16 +1,24 @@
 class Solution {
 public:
-    int maximalSquare(vector<vector<char>>& matrix) {
-        int m = matrix.size();
-        int n = matrix[0].size();
-        vector<vector<int>> dp(m+1,vector<int>(n+1,0));
-        int mxm = INT_MIN;
-        for(int i = 1;i <= m;i++) {
-            for(int j = 1;j <= n;j++) {
-                if(matrix[i-1][j-1] == '1') {
-                    dp[i][j] = (matrix[i-1][j-1]-'0') + min({dp[i-1][j],dp[i-1][j-1],dp[i][j-1]});
-                }
-                mxm = max(mxm, dp[i][j]);
+    int mxm = 0;
+    int dp[300][300];
+    int solve(vector<vector<char>> &grid, int row, int col) {
+        int m = grid.size();
+        int n = grid[0].size();
+        if(row >= m || col >= n) return 0;
+        if(grid[row][col] == '0') return 0;
+        if(dp[row][col] != -1) return dp[row][col];
+        return dp[row][col] = (grid[row][col]-'0') + min({
+            solve(grid, row+1, col),
+            solve(grid, row, col+1),
+            solve(grid, row+1, col+1)
+        });
+    }
+    int maximalSquare(vector<vector<char>>& grid) {
+        memset(dp,-1,sizeof(dp));
+        for(int i = 0;i < grid.size();i++) {
+            for(int j = 0;j < grid[0].size();j++) {
+                mxm = max(mxm, solve(grid, i, j));
             }
         }
         return mxm*mxm;
